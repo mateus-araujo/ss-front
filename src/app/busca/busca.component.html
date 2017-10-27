@@ -1,0 +1,54 @@
+<p-dialog header="Buscar" [(visible)]="mostrar" [contentStyle]="{'overflow':'visible'}" [width]="500">
+  <form [formGroup]="formulario" (ngSubmit)="buscar()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-4">
+            <label>Nome: </label>
+          </div>
+
+          <div class="ui-g-8">
+            <input type="text" pInputText formControlName="nome" placeholder="Nome do profissional">
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-4">
+            <label>Categoria: </label>
+          </div>
+          <div class="ui-g-8">
+            <p-dropdown [options]="categorias" filter="filter" formControlName="categoria" [style]="{'width':'220px'}" placeholder="Selecione uma categoria"
+              (onChange)="buscarServicos()">
+            </p-dropdown>
+          </div>
+          <div class="ui-g-12">
+            <app-error-component [showError]="checkFieldValidation('categoria')" errorMsg="Selecione alguma categoria">
+            </app-error-component>
+            </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-4">
+            <label>Serviço: </label>
+          </div>
+          <div class="ui-g-8">
+            <p-dropdown [options]="servicos" filter="filter" formControlName="servico" [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-2"></div>
+        <div class="ui-g-4">
+          <button pButton type="submit" (click)="buscar()" label="Buscar"></button>
+        </div>
+        <div class="ui-g-4">
+          <button pButton type="button" (click)="voltar()" label="Voltar"></button>
+        </div>
+        <div class="ui-g-2"></div>
+      </div>
+    </fieldset>
+  </form>
+</p-dialog>
+
+<button pButton label="Buscar" (click)="mostrarBusca()" icon="fa-search">
+</button>

@@ -1,0 +1,32 @@
+[
+	{
+		"id": "1",
+		"nome": "Pintura",
+		"idCategoria": "2"
+	},
+	{
+		"id": "2",
+		"nome": "Faxina",
+		"idCategoria": "1"
+	},	
+	{
+		"id": "3",
+		"nome": "Eletricista",
+		"idCategoria": "2"
+	},
+	{
+		"id": "4",
+		"nome": "Correção de trabalhos",
+		"idCategoria": "3"
+	},
+	{
+		"id": "5",
+		"nome": "Jardinagem",
+		"idCategoria": "1"
+	},
+	{
+		"id": "6",
+		"nome": "Advocacia",
+		"idCategoria": "3"
+	}
+]

@@ -1,0 +1,17 @@
+.loginExterno {
+    margin-top: 0px;
+    margin-right: 300px;
+    margin-left: 300px;
+    margin-bottom: 150px;
+}
+
+.loginInterno {
+    padding-right: 150px;
+    padding-left: 150px;
+    text-align: center;
+}
+
+.link {
+    text-decoration: underline; 
+    cursor: pointer;
+}

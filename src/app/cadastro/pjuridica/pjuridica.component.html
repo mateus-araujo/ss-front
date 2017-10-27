@@ -1,0 +1,392 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <h3 class="title">Informações pessoais</h3>
+  </div>
+</div>
+<form class="form" [formGroup]="formulario" (ngSubmit)="salvar()">
+  <p-fieldset class="campo" legend="Empresa">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="ui-g-2">
+          <label>Email *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input type="email" pInputText formControlName="email">
+        </div>
+
+        <div class="ui-g-6">
+          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['email'].valid && formulario.controls['email'].dirty">
+            <i class="fa fa-close"></i>
+            <span *ngIf="formulario.controls['email'].errors['required']">Email requirido;</span>
+            <span *ngIf="formulario.controls['email'].errors['email']">Digite um email válido;</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-2">
+          <label>Usuário *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input type="text" pInputText formControlName="usuario">
+        </div>
+
+        <div class="ui-grid-col-4">
+          <app-error-component [showError]="checkFieldValidation('usuario')" errorMsg="Usuário é requerido">
+          </app-error-component>
+        </div>
+
+      </div>
+
+      <div class="ui-g-6">
+
+        <div class="ui-g-4">
+          <label>Senha *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input type="password" pPassword formControlName="senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Digite sua senha">
+        </div>
+
+        <div class="ui-g-3">
+          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['senha'].valid && 
+                  (formulario.controls['senha'].touched || 
+                  formulario.controls['senha'].dirty)">
+            <i class="fa fa-close"></i>
+            <span *ngIf="formulario.controls['senha'].errors['required']">
+              Senha requerida;
+            </span>
+            <span *ngIf="formulario.controls['senha'].errors['minlength']">
+              Senha deve ter pelo menos de 6 caracteres;
+            </span>
+            <span *ngIf="formulario.controls['senha'].value != 
+            formulario.controls['conf_senha'].value &&
+            formulario.controls['conf_senha'].value != null">
+              Senhas diferentes;
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ui-g-6">
+
+        <div class="ui-g-4">
+          <label>Confirmar senha *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input type="password" pPassword formControlName="conf_senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Confirme sua senha senha">
+        </div>
+
+        <div class="ui-g-3">
+          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['conf_senha'].valid && 
+                  (formulario.controls['conf_senha'].touched || 
+                  formulario.controls['conf_senha'].dirty)">
+            <i class="fa fa-close"></i>
+            <span *ngIf="formulario.controls['senha'].value != 
+                         formulario.controls['conf_senha'].value &&
+                         formulario.controls['conf_senha'].value != null">
+              Senhas diferentes;
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+
+        <div class="ui-g-2">
+          <label>CNPJ *:</label>
+        </div>
+
+        <div class="ui-g-4">
+          <p-inputMask mask="99.999.999/9999-99" formControlName="cnpj">
+          </p-inputMask>
+        </div>
+
+        <div class="ui-g-6">
+          <app-error-component [showError]="checkFieldValidation('cnpj')" errorMsg="CNPJ é requerido">
+          </app-error-component>
+        </div>
+
+      </div>
+
+      <div class="ui-g-12">
+
+        <div class="ui-g-2">
+          <label>Nome fantasia *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input pInputText type="text" formControlName="nomeFantasia">
+        </div>
+
+        <div class="ui-g-6">
+          <app-error-component [showError]="checkFieldValidation('nomeFantasia')" errorMsg="Nome fantasia é requerido">
+          </app-error-component>
+        </div>
+
+      </div>
+
+      <div class="ui-g-12">
+
+        <div class="ui-g-2">
+          <label>Razão Social *: </label>
+        </div>
+
+        <div class="ui-g-4">
+          <input pInputText type="text" formControlName="razaoSocial">
+        </div>
+
+        <div class="ui-g-6">
+          <app-error-component [showError]="checkFieldValidation('razaoSocial')" errorMsg="Razão social é requerida">
+          </app-error-component>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="ui-g ui-fluid" formGroupName="telefone">
+      <div class="ui-g-6">
+        <div class="ui-g-4">
+          <label>Telefone 1 *:</label>
+        </div>
+
+        <div class="ui-g-4">
+          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone1">
+          </p-inputMask>
+        </div>
+
+        <div class="ui-g-4">
+          <app-error-component [showError]="checkFieldValidation('telefone.telefone1')" errorMsg="Telefone é requerido">
+          </app-error-component>
+        </div>
+      </div>
+
+      <div class="ui-g-6">
+        <div class="ui-g-4">
+          <label>Telefone 2 *:</label>
+        </div>
+
+        <div class="ui-g-4">
+          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone2">
+          </p-inputMask>
+        </div>
+
+        <div class="ui-g-4">
+          <app-error-component [showError]="checkFieldValidation('telefone.telefone2')" errorMsg="Telefone é requerido">
+          </app-error-component>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid" formGroupName="endereco">
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+          <label>CEP *:</label>
+        </div>
+        <div class="ui-g-8">
+          <p-inputMask mask="99999-999" formControlName="cep" (onBlur)="consultaCEP()">
+          </p-inputMask>
+        </div>
+      </div>
+
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+          <label>Estado *: </label>
+        </div>
+        <div class="ui-g-8">
+          <p-autoComplete [suggestions]="estados" formControlName="estado" (completeMethod)="buscarEstados($event)" forceSelection="true"
+            [dropdown]="true">
+          </p-autoComplete>
+        </div>
+      </div>
+
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+          <label>Cidade *: </label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText type="text" formControlName="cidade">
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <app-error-component [showError]="checkFieldValidation('endereco.cep')" errorMsg="Cep é requerido">
+              </app-error-component>
+            </div>
+
+            <div class="ui-grid-col-4">
+              <app-error-component [showError]="checkFieldValidation('endereco.estado')" errorMsg="Estado é requerido">
+              </app-error-component>
+            </div>
+
+            <div class="ui-grid-col-4">
+              <app-error-component [showError]="checkFieldValidation('endereco.cidade')" errorMsg="Cidade é requerida">
+              </app-error-component>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+          <label>Bairro *: </label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText type="text" formControlName="bairro">
+        </div>
+      </div>
+
+      <div class="ui-g-8">
+        <div class="ui-g-3">
+          <label>Complemento : </label>
+        </div>
+        <div class="ui-g-9">
+          <input pInputText type="text" placeholder="Apartamento, andar..." formControlName="complemento">
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <app-error-component [showError]="checkFieldValidation('endereco.bairro')" errorMsg="Bairro é requerido">
+              </app-error-component>
+            </div>
+
+            <div class="ui-grid-col-8">
+              <app-error-component [showError]="checkFieldValidation('endereco.complemento')" errorMsg="Complemento é requerido">
+              </app-error-component>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-8">
+        <div class="ui-g-3">
+          <label>Logradouro *: </label>
+        </div>
+        <div class="ui-g-9">
+          <input pInputText type="text" placeholder="Avenida, Rua..." formControlName="logradouro">
+        </div>
+      </div>
+
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+          <label>Número *: </label>
+        </div>
+        <div class="ui-g-8">
+          <input pInputText type="text" formControlName="numero">
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-8">
+              <app-error-component [showError]="checkFieldValidation('endereco.logradouro')" errorMsg="Logradouro é requerido">
+              </app-error-component>
+            </div>
+
+            <div class="ui-grid-col-4">
+              <app-error-component [showError]="checkFieldValidation('endereco.numero')" errorMsg="Número é requerido">
+              </app-error-component>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-5" formArrayName="servicosPrestados">
+        <p-fieldset legend="Serviços prestados">
+          <div *ngFor="let servicoPrestado of 
+            formulario.controls['servicosPrestados'].controls; let i = index;">
+            <div [formGroupName]="i">
+              <div class="ui-g-12">
+                <label>{{i + 1}}º serviço </label>
+              </div>
+
+              <div class="ui-g-12">
+                <p-dropdown *ngIf="i == 0"  [options]="categorias1" filter="filter" formControlName="categoria"
+                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                </p-dropdown>
+
+                <p-dropdown *ngIf="i == 1"  [options]="categorias2" filter="filter" formControlName="categoria"
+                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                </p-dropdown>
+
+                <p-dropdown *ngIf="i == 2"  [options]="categorias3" filter="filter" formControlName="categoria"
+                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                </p-dropdown>
+              </div>
+    
+              <div class="ui-g-12">
+                <p-dropdown *ngIf="i == 0" [options]="servicos1" filter="filter" formControlName="servico"
+                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                </p-dropdown>
+
+                <p-dropdown *ngIf="i == 1" [options]="servicos2" filter="filter" formControlName="servico"
+                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                </p-dropdown>
+
+                <p-dropdown *ngIf="i == 2" [options]="servicos3" filter="filter" formControlName="servico"
+                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                </p-dropdown>
+
+              </div>
+            </div>
+            <div class="ui-g-6">
+              <button pButton type="button" name="remove" (click)="removeServico(i)" icon="fa-minus">
+              </button>
+            </div>
+          </div>
+          <div class="ui-g-6">
+            <button pButton type="button" name="add" (click)="addServico()" icon="fa-plus">
+            </button>
+          </div>
+        </p-fieldset>
+      </div>
+
+      <div class="ui-g-offset-1 ui-g-6">
+        <p-editor [style]="{'height':'180px'}" formControlName="descricao" placeholder="Digite a descrição da empresa aqui...">
+          <p-header>
+            <span class="ql-format-group">
+              <button class="ql-bold" aria-label="Bold"></button>
+              <button class="ql-italic" aria-label="Italic"></button>
+              <button class="ql-underline" aria-label="Underline"></button>
+            </span>
+          </p-header>
+        </p-editor>
+      </div>
+    </div>
+  </p-fieldset>
+
+  <div class="ui-g">
+    <div class="ui-g-12 buttonForm">
+      <p-growl [value]="msgs"></p-growl>
+      <p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
+
+      <button pButton type="button" (click)="cancelar()" icon="fa-close" label="Cancelar" acceptLabel="Sim" rejectLabel="Não">
+      </button>
+
+      <button pButton type="submit" icon="fa-check" label="Salvar" acceptLabel="Sim" rejectLabel="Não">
+      </button>
+    </div>
+  </div>
+
+  <app-form-debug [form]="formulario"></app-form-debug>
+
+</form>

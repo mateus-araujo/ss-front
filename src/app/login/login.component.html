@@ -1,0 +1,91 @@
+<div class="loginExterno">
+  <p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+  <form [formGroup]="formulario" (ngSubmit)="login()">
+    <p-panel header="Login">
+      <div class="ui-g ui-fluid loginInterno">
+        <div class="ui-g-12">
+          <h3>Entre com seus dados</h3>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon">
+                <i class="fa fa-user"></i>
+              </span>
+              <input type="text" pInputText formControlName="usuario" placeholder="Usuário ou email">
+            </div>
+          </div>
+
+          <div class="ui-g-12">
+            <app-error-component [showError]="checkFieldValidation('usuario')" errorMsg="Usuario é requerido">
+            </app-error-component>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon">
+                <i class="fa fa-key"></i>
+              </span>
+              <input type="password" formControlName="senha" pInputText placeholder="Senha">
+            </div>
+
+            <div class="ui-g-12">
+              <app-error-component [showError]="checkFieldValidation('senha')" errorMsg="Senha é requerida">
+              </app-error-component>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-6">
+            <p-dialog header="Esqueceu senha?" [(visible)]="mostrar" 
+              [contentStyle]="{'overflow':'visible'}" [width]="500">
+              <form [formGroup]="recsenha" (ngSubmit)="enviar()">
+                <fieldset>
+                  <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                      <div class="ui-g-4">
+                        <label>Email *: </label>
+                      </div>
+
+                      <div class="ui-g-8">
+                        <input type="email" pInputText formControlName="email">
+                      </div>
+
+                      <div class="ui-g-12">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!recsenha.controls['email'].valid && recsenha.controls['email'].dirty">
+                          <i class="fa fa-close"></i>
+                          <span *ngIf="recsenha.controls['email'].errors['required']">Email requirido;</span>
+                          <span *ngIf="recsenha.controls['email'].errors['email']">Digite um email válido;</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-8"></div>
+                    <div class="ui-g-4">
+                        <button pButton type="submit" (click)="enviar()" label="Enviar"></button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </p-dialog>
+
+            <a (click)="mostrarRec()" class="link">Esqueceu sua senha?</a>
+          </div>
+          <div class="ui-g-6">
+            <a href="/cadastro">Cadastrar-se</a>
+          </div>
+        </div>
+
+        <div class="ui-g-4"></div>
+        <div class="ui-g-4">
+          <button pButton type="submit" label="Entrar"></button>
+        </div>
+        <div class="ui-g-4"></div>
+      </div>
+    </p-panel>
+  </form>
+  <app-form-debug [form]="formulario"></app-form-debug>
+</div>

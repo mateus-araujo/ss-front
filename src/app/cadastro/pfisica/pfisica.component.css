@@ -1,0 +1,20 @@
+.form {
+    text-align: left;
+}
+
+.buttonForm {
+    text-align: center;
+}
+
+.title {
+    text-align: center
+}
+
+.campo1 {
+    padding: 20px;
+}
+
+.campo2 {
+    margin-top: 20px;
+    padding: 20px;
+}

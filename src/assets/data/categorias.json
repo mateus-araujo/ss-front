@@ -1,0 +1,14 @@
+[
+	{
+		"id": "1",
+		"nome": "Serviços Domésticos"
+	},
+	{
+		"id": "2",
+		"nome": "Serviços Técnicos"
+	},	
+	{
+		"id": "3",
+		"nome": "Serviços Acadêmicos"
+	}
+]
