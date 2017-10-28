@@ -1,4 +1,4 @@
-import { Categoria } from './../../compartilhado/models/categoria.model';
+import { CategoriaServico } from './../../compartilhado/models/categoria-servico.model';
 import { Http } from '@angular/http';
 import { CategoriaService } from './../../compartilhado/services/categoria.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -15,7 +15,7 @@ export class CrudComponent implements OnInit {
   displayDialog: boolean;
   submitted: boolean;
 
-  categorias: Array<Categoria>;
+  categorias: Array<CategoriaServico>;
 
   constructor(
     private categoriaService: CategoriaService,
@@ -24,7 +24,7 @@ export class CrudComponent implements OnInit {
 
     this.categoriaService
       .getCategorias()
-      .then((categorias:Array<Categoria>) => this.categorias = categorias);
+      .then((categorias:Array<CategoriaServico>) => this.categorias = categorias);
   }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class CrudComponent implements OnInit {
           //console.log(dados);
           //console.log(this.formulario.value);
 
-          let categoria = new Categoria();
+          let categoria = new CategoriaServico();
           categoria.nome = this.formulario.value.categoria;
           
           this.addCategoria(categoria);
@@ -87,7 +87,7 @@ export class CrudComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  addCategoria(categoria: Categoria) {
+  addCategoria(categoria: CategoriaServico) {
     this.categoriaService.createCategoria(categoria);
   }
 
