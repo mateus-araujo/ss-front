@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   formulario: FormGroup;
   recsenha: FormGroup;
-  mostrar: boolean = false;
+  mostrar: boolean;
   msgs: Message[] = [];
   submitted: boolean;
 
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
     this.recsenha = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]]
-    })
+    });
   }
 
   mostrarRec() {

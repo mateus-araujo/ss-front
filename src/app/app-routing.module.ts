@@ -10,14 +10,14 @@ import { AdministradorHomeComponent } from './home/administrador/administrador-h
 import { UsuarioHomeComponent } from './home/usuario/usuario-home.component';
 import { BuscaComponent } from './busca/busca.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes }  from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 const appRoutes: Routes = [
   { path: 'home/user', component: UsuarioHomeComponent },
   { path: 'home/user/login', component: UsuarioLoginComponent },
   { path: 'home/user/cadastro', component: UsuarioCadastroComponent },
-  
+
   { path: 'home/prestador', component: PrestadorHomeComponent },
   { path: 'home/prestador/login', component: PrestadorLoginComponent },
   { path: 'home/prestador/cadastro', component: PrestadorCadastroComponent },
@@ -36,6 +36,6 @@ const appRoutes: Routes = [
     CommonModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
-  exports: [ RouterModule ]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

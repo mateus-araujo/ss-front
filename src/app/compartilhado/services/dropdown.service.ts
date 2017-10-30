@@ -16,14 +16,4 @@ export class DropdownService {
       .map((res: Response) => res.json());
   }
 
-  getCategorias() {
-    return this.http.get('assets/data/categorias.json')
-      .map((res: Response) => res.json());
-  }
-
-  getServicos() {
-    return this.http.get('assets/data/servicos.json')
-      .map((res: Response) => res.json());
-  }
-
 }

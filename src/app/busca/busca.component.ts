@@ -1,3 +1,5 @@
+import { Servico } from './../compartilhado/models/servico.model';
+import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../compartilhado/models/categoria-servico.model';
 import { DropdownService } from './../compartilhado/services/dropdown.service';
 import { Http } from '@angular/http';
@@ -15,7 +17,7 @@ export class BuscaComponent implements OnInit {
   formulario: FormGroup;
   submitted: boolean;
 
-  mostrar: boolean = false;
+  mostrar: boolean;
 
   categoriasI: CategoriaServico[];
   categorias: SelectItem[];
@@ -25,16 +27,17 @@ export class BuscaComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
     private http: Http
   ) {
 
-    this.dropdownService.getCategorias()
-      .subscribe(dados => {
+    this.categoriaServicoService.getCategorias()
+      .then((dados: Array<CategoriaServico>) => {
         this.categoriasI = dados;
 
         this.categorias = [];
-        for (var index = 0; index < dados.length; index++) {
+        for (let index = 0; index < dados.length; index++) {
           this.categorias.push({
             label: dados[index].nome,
             value: {
@@ -88,7 +91,7 @@ export class BuscaComponent implements OnInit {
         .map(res => res)
         .subscribe(
         dados => {
-          //console.log(dados);
+          // console.log(dados);
           console.log(this.formulario.value);
           this.formulario.reset();
           this.mostrar = false;
@@ -105,30 +108,24 @@ export class BuscaComponent implements OnInit {
   }
 
   buscarServicos() {
-    this.dropdownService.getServicos()
-      .subscribe(dados => {
-        this.servicosI = dados;
+    this.categoriaServicoService.getServicos(
+      this.formulario.get('categoria').value.id
+    ).then((dados: Array<Servico>) => {
+      this.servicosI = dados;
+      this.servicos = [];
 
-        this.servicos = [];
+      // console.log(this.formulario.get('categoria').value);
 
-        //console.log(this.formulario.get('categoria').value);
-        let sCategoria = this.formulario.get('categoria').value.id;
-
-        for (var index = 0; index < dados.length; index++) {
-          if ((sCategoria == dados[index].idCategoria)) {
-            this.servicos.push({
-              label: dados[index].nome,
-              value: {
-                id: dados[index].id,
-                nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
-              }
-            }
-            );
+      for (let index = 0; index < dados.length; index++) {
+        this.servicos.push({
+          label: dados[index].nome,
+          value: {
+            id: dados[index].id,
+            nome: dados[index].nome,
+            id_categoria: dados[index].id_categoria
           }
-        }
+        });
       }
-      );
+    });
   }
-
 }

@@ -1,3 +1,5 @@
+import { Servico } from './../../compartilhado/models/servico.model';
+import { CategoriaServicoService } from './../../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../../compartilhado/models/categoria-servico.model';
 import { DropdownService } from './../../compartilhado/services/dropdown.service';
 import { EstadoBr } from './../../compartilhado/models/estado-br.model';
@@ -15,7 +17,7 @@ import { SelectItem, MenuItem, ConfirmationService, Message } from 'primeng/prim
   selector: 'app-pfisica',
   templateUrl: './pfisica.component.html',
   styleUrls: ['./pfisica.component.css'],
-  providers: [ ConfirmationService ]
+  providers: [ConfirmationService]
 })
 export class PFisicaComponent implements OnInit {
 
@@ -25,8 +27,6 @@ export class PFisicaComponent implements OnInit {
   estadosBr: EstadoBr[];
   estados: string[];
   estado: string;
-
-  cidadesBr: CidadeBr[];
 
   categoriasI: CategoriaServico[];
   categorias1: SelectItem[];
@@ -42,19 +42,20 @@ export class PFisicaComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
+    private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
 
-    this.dropdownService.getCategorias()
-      .subscribe(dados => {
+    this.categoriaServicoService.getCategorias()
+      .then((dados: Array<CategoriaServico>) => {
         this.categoriasI = dados;
 
         this.categorias1 = [];
         this.categorias2 = [];
         this.categorias3 = [];
-        for (var index = 0; index < dados.length; index++) {
+        for (let index = 0; index < dados.length; index++) {
           this.categorias1.push({
             label: dados[index].nome,
             value: {
@@ -78,10 +79,8 @@ export class PFisicaComponent implements OnInit {
               nome: dados[index].nome
             }
           });
-
         }
-      }
-      );
+      });
   }
 
   ngOnInit() {
@@ -97,12 +96,12 @@ export class PFisicaComponent implements OnInit {
   }
 
   checkPrestador() {
-    let qtd = 1;
+    const qtd = 1;
 
     if (this.formulario.controls['prestador'].value) {
       this.formulario.get('tipo_usuario').patchValue(2);
 
-      this.formulario.addControl("prestadorDados", this.formBuilder.group({
+      this.formulario.addControl('prestadorDados', this.formBuilder.group({
         cpf: [null, Validators.required],
         rg: [null, [Validators.required]],
         sexo: [null, Validators.required],
@@ -129,7 +128,7 @@ export class PFisicaComponent implements OnInit {
     } else {
       this.formulario.get('tipo_usuario').patchValue(1);
 
-      this.formulario.removeControl("prestadorDados");
+      this.formulario.removeControl('prestadorDados');
     }
 
     return this.formulario.controls['prestador'].value;
@@ -143,7 +142,7 @@ export class PFisicaComponent implements OnInit {
       accept: () => {
         this.msgs = [{ severity: 'info', summary: 'Confirmado', detail: 'Cadastro cancelado' }];
         this.formulario.reset();
-        //this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
       },
       reject: () => {
         this.msgs = [{ severity: 'info', summary: 'Cancelado', detail: 'Cancelamento não concluído' }];
@@ -153,25 +152,16 @@ export class PFisicaComponent implements OnInit {
 
   salvar() {
     this.confirmationService.confirm({
-      message: 'Confirma os dados do cadastro?',
       header: 'Confirmar cadastro',
+      message: 'Confirma os dados do cadastro?',
       icon: 'fa fa-question-circle',
       accept: () => {
         console.log(this.formulario);
 
         if (this.formulario.valid) {
-          this.http
-            .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-            .map(res => res)
-            .subscribe(
-            dados => {
-              console.log(dados);
-              // this.formulario.reset();
-            },
-            (error: any) => alert('erro')
-            );
 
-          this.submitted = true;
+
+
           this.msgs = [];
           this.msgs = [{
             severity: 'success',
@@ -179,16 +169,15 @@ export class PFisicaComponent implements OnInit {
             detail: 'Cadastro concluído'
           }];
         } else {
-          console.log("formulário inválido");
+          console.log('formulário inválido');
 
           this.checkFormValidations(this.formulario);
 
           if (this.formulario.controls['senha'].value !== this.formulario.controls['conf_senha'].value) {
-            this.formulario.controls['senha'].markAsDirty;
-            this.formulario.controls['conf_senha'].markAsDirty;
+            this.formulario.controls['senha'].markAsDirty();
+            this.formulario.controls['conf_senha'].markAsDirty();
           }
 
-          this.submitted = false;
           this.msgs = [];
           this.msgs = [{
             severity: 'error',
@@ -231,7 +220,7 @@ export class PFisicaComponent implements OnInit {
         this.estadosBr = dados;
 
         this.estados = [];
-        for (var index = 0; index < dados.length; index++) {
+        for (let index = 0; index < dados.length; index++) {
           this.estados.push(dados[index].sigla);
         }
       }
@@ -239,56 +228,56 @@ export class PFisicaComponent implements OnInit {
   }
 
   buscarServicos(i: number) {
-    this.dropdownService.getServicos()
-      .subscribe(dados => {
+    this.categoriaServicoService.getServicos(
+      this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id
+    )
+      .then((dados: Array<Servico>) => {
         this.servicosI = dados;
 
-        if (i == 0) {
+        if (i === 0) {
           this.servicos1 = [];
-        } else if (i == 1) {
+        } else if (i === 1) {
           this.servicos2 = [];
-        } else if (i == 2) {
+        } else if (i === 2) {
           this.servicos3 = [];
         }
 
-        console.log(this.formulario.get('prestadorDados.servicosPrestados').value[i]);
-        let sCategoria = this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id;
+        // console.log(this.formulario.get('prestadorDados.servicosPrestados').value[i]);
 
-        for (var index = 0; index < dados.length; index++) {
-          if ((sCategoria == dados[index].idCategoria) && i == 0) {
+        for (let index = 0; index < dados.length; index++) {
+          if (i === 0) {
             this.servicos1.push({
               label: dados[index].nome,
               value: {
                 id: dados[index].id,
                 nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
+                id_categoria: dados[index].id_categoria
               }
             }
             );
-          } else if ((sCategoria == dados[index].idCategoria) && i == 1) {
+          } else if (i === 1) {
             this.servicos2.push({
               label: dados[index].nome,
               value: {
                 id: dados[index].id,
                 nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
+                id_categoria: dados[index].id_categoria
               }
             }
             );
-          } else if ((sCategoria == dados[index].idCategoria) && i == 2) {
+          } else if (i === 2) {
             this.servicos3.push({
               label: dados[index].nome,
               value: {
                 id: dados[index].id,
                 nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
+                id_categoria: dados[index].id_categoria
               }
             }
             );
           }
         }
-      }
-      );
+      });
   }
 
   createServico(qtd: number): FormGroup {
@@ -296,11 +285,11 @@ export class PFisicaComponent implements OnInit {
       id: [qtd],
       categoria: [null, Validators.required],
       servico: [null, Validators.required]
-    })
+    });
   }
 
   addServico(): void {
-    let val = this.formulario.get('prestadorDados.qtdServicos').value;
+    const val = this.formulario.get('prestadorDados.qtdServicos').value;
 
     if (val < 3) {
       const control = <FormArray>this.formulario.get('prestadorDados.servicosPrestados');
@@ -317,7 +306,7 @@ export class PFisicaComponent implements OnInit {
   }
 
   removeServico(index: number): void {
-    let val = this.formulario.get('prestadorDados.qtdServicos').value;
+    const val = this.formulario.get('prestadorDados.qtdServicos').value;
     if (val > 1) {
       const control = <FormArray>this.formulario.get('prestadorDados.servicosPrestados');
       control.removeAt(index);
@@ -336,16 +325,16 @@ export class PFisicaComponent implements OnInit {
 
     let cep = this.formulario.get('prestadorDados.endereco.cep').value;
 
-    //Nova variável "cep" somente com dígitos.
+    // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, '');
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
+    // Verifica se campo cep possui valor informado.
+    if (cep !== '') {
 
-      //Expressão regular para validar o CEP.
-      var validacep = /^[0-9]{8}$/;
+      // Expressão regular para validar o CEP.
+      const validacep = /^[0-9]{8}$/;
 
-      //Valida o formato do CEP.
+      // Valida o formato do CEP.
       if (validacep.test(cep)) {
 
         this.resetDataForm();

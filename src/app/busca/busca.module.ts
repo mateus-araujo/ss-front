@@ -1,3 +1,4 @@
+import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuscaComponent } from './busca.component';
@@ -18,6 +19,7 @@ import { DropdownModule, InputTextModule, ButtonModule, DialogModule } from 'pri
     DropdownModule,
     InputTextModule
   ],
+  providers: [CategoriaServicoService],
   declarations: [ BuscaComponent ],
   exports: [ BuscaComponent ]
 })

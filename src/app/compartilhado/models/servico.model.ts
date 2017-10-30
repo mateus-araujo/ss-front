@@ -1,5 +1,5 @@
 export class Servico {
     id: number;
     nome: string;
-    idCategoria: number;
+    id_categoria: number;
 }

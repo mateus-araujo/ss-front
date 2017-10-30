@@ -1,3 +1,4 @@
+import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
 import { DropdownService } from './../compartilhado/services/dropdown.service';
 import { PrestadorCadastroComponent } from './prestador/prestador-cadastro.component';
@@ -7,12 +8,14 @@ import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AutoCompleteModule, ButtonModule, CalendarModule, CodeHighlighterModule, 
-  ConfirmDialogModule, ConfirmationService, DataTableModule, 
-  DropdownModule, EditorModule, FieldsetModule, GrowlModule, 
+import {
+  AutoCompleteModule, ButtonModule, CalendarModule, CodeHighlighterModule,
+  ConfirmDialogModule, ConfirmationService, DataTableModule,
+  DropdownModule, EditorModule, FieldsetModule, GrowlModule,
   InputMaskModule, InputSwitchModule, InputTextareaModule, InputTextModule,
-  MenubarModule, MenuItem, MenuModule, PanelModule, PasswordModule, 
-  PickListModule, RadioButtonModule, TabViewModule } from 'primeng/primeng';
+  MenubarModule, MenuItem, MenuModule, PanelModule, PasswordModule,
+  PickListModule, RadioButtonModule, TabViewModule
+} from 'primeng/primeng';
 
 import { CadastroComponent } from './cadastro.component';
 import { PFisicaComponent } from './pfisica/pfisica.component';
@@ -30,25 +33,25 @@ import { AdministradorCadastroComponent } from './administrador/administrador-ca
     CompartilhadoModule,
 
     AutoCompleteModule,
-    ButtonModule, 
-    CalendarModule, 
-    CodeHighlighterModule, 
-    ConfirmDialogModule, 
-    DataTableModule, 
-    DropdownModule, 
-    EditorModule, 
-    FieldsetModule, 
-    GrowlModule, 
-    InputMaskModule, 
-    InputSwitchModule, 
-    InputTextareaModule, 
+    ButtonModule,
+    CalendarModule,
+    CodeHighlighterModule,
+    ConfirmDialogModule,
+    DataTableModule,
+    DropdownModule,
+    EditorModule,
+    FieldsetModule,
+    GrowlModule,
+    InputMaskModule,
+    InputSwitchModule,
+    InputTextareaModule,
     InputTextModule,
     MenubarModule,
-    MenuModule, 
-    PanelModule, 
-    PasswordModule, 
-    PickListModule, 
-    RadioButtonModule, 
+    MenuModule,
+    PanelModule,
+    PasswordModule,
+    PickListModule,
+    RadioButtonModule,
     TabViewModule
   ],
   declarations: [
@@ -59,6 +62,6 @@ import { AdministradorCadastroComponent } from './administrador/administrador-ca
     AdministradorCadastroComponent,
     PrestadorCadastroComponent
   ],
-  providers: [ DropdownService ]
+  providers: [DropdownService, CategoriaServicoService]
 })
 export class CadastroModule { }

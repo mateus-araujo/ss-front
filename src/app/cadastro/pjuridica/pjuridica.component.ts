@@ -1,3 +1,5 @@
+import { Servico } from './../../compartilhado/models/servico.model';
+import { CategoriaServicoService } from './../../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../../compartilhado/models/categoria-servico.model';
 import { DropdownService } from './../../compartilhado/services/dropdown.service';
 import { CidadeBr } from './../../compartilhado/models/cidade-br.model';
@@ -44,19 +46,20 @@ export class PJuridicaComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
+    private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
 
-    this.dropdownService.getCategorias()
-      .subscribe(dados => {
+    this.categoriaServicoService.getCategorias()
+      .then((dados: Array<CategoriaServico>) => {
         this.categoriasI = dados;
 
         this.categorias1 = [];
         this.categorias2 = [];
         this.categorias3 = [];
-        for (var index = 0; index < dados.length; index++) {
+        for (let index = 0; index < dados.length; index++) {
           this.categorias1.push({
             label: dados[index].nome,
             value: {
@@ -87,15 +90,14 @@ export class PJuridicaComponent implements OnInit {
   }
 
   ngOnInit() {
-    let qtd = 1;
+    const qtd = 1;
 
     this.formulario = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       usuario: [null, [Validators.required]],
       senha: [null, [Validators.required, Validators.minLength(6)]],
       conf_senha: [null, [Validators.required, Validators.minLength(6)]],
-      usuario_tipo: [{"id": 3,
-      "nome": "Empresa"}],
+      tipo_usuario: [3],
       cnpj: [null, Validators.required],
       nomeFantasia: [null, Validators.required],
       razaoSocial: [null, Validators.required],
@@ -134,7 +136,7 @@ export class PJuridicaComponent implements OnInit {
       accept: () => {
         this.msgs = [{ severity: 'info', summary: 'Confirmado', detail: 'Cadastro cancelado' }];
         this.formulario.reset();
-        //this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
       },
       reject: () => {
         this.msgs = [{ severity: 'info', summary: 'Cancelado', detail: 'Cancelamento não concluído' }];
@@ -170,13 +172,13 @@ export class PJuridicaComponent implements OnInit {
             detail: 'Cadastro concluído'
           }];
         } else {
-          console.log("formulário inválido");
+          console.log('formulário inválido');
 
           this.checkFormValidations(this.formulario);
 
           if (this.formulario.controls['senha'].value !== this.formulario.controls['conf_senha'].value) {
-            this.formulario.controls['senha'].markAsDirty;
-            this.formulario.controls['conf_senha'].markAsDirty;
+            this.formulario.controls['senha'].markAsDirty();
+            this.formulario.controls['conf_senha'].markAsDirty();
           }
 
           this.submitted = false;
@@ -222,7 +224,7 @@ export class PJuridicaComponent implements OnInit {
         this.estadosBr = dados;
 
         this.estados = [];
-        for (var index = 0; index < dados.length; index++) {
+        for (let index = 0; index < dados.length; index++) {
           this.estados.push(dados[index].sigla);
         }
       }
@@ -230,56 +232,56 @@ export class PJuridicaComponent implements OnInit {
   }
 
   buscarServicos(i: number) {
-    this.dropdownService.getServicos()
-      .subscribe(dados => {
-        this.servicosI = dados;
+    this.categoriaServicoService.getServicos(
+      this.formulario.get('servicosPrestados').value[i].categoria.id
+    )
+    .then((dados: Array<Servico>) => {
+      this.servicosI = dados;
 
-        if (i == 0) {
-          this.servicos1 = [];
-        } else if (i == 1) {
-          this.servicos2 = [];
-        } else if (i == 2) {
-          this.servicos3 = [];
-        }
+      if (i === 0) {
+        this.servicos1 = [];
+      } else if (i === 1) {
+        this.servicos2 = [];
+      } else if (i === 2) {
+        this.servicos3 = [];
+      }
 
-        console.log(this.formulario.get('servicosPrestados').value[i]);
-        let sCategoria = this.formulario.get('servicosPrestados').value[i].categoria.id;
+      // console.log(this.formulario.get('servicosPrestados').value[i]);
 
-        for (var index = 0; index < dados.length; index++) {
-          if ((sCategoria == dados[index].idCategoria) && i == 0) {
-            this.servicos1.push({
-              label: dados[index].nome,
-              value: {
-                id: dados[index].id,
-                nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
-              }
+      for (let index = 0; index < dados.length; index++) {
+        if (i === 0) {
+          this.servicos1.push({
+            label: dados[index].nome,
+            value: {
+              id: dados[index].id,
+              nome: dados[index].nome,
+              id_categoria: dados[index].id_categoria
             }
-            );
-          } else if ((sCategoria == dados[index].idCategoria) && i == 1) {
-            this.servicos2.push({
-              label: dados[index].nome,
-              value: {
-                id: dados[index].id,
-                nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
-              }
-            }
-            );
-          } else if ((sCategoria == dados[index].idCategoria) && i == 2) {
-            this.servicos3.push({
-              label: dados[index].nome,
-              value: {
-                id: dados[index].id,
-                nome: dados[index].nome,
-                idCategoria: dados[index].idCategoria
-              }
-            }
-            );
           }
+          );
+        } else if (i === 1) {
+          this.servicos2.push({
+            label: dados[index].nome,
+            value: {
+              id: dados[index].id,
+              nome: dados[index].nome,
+              id_categoria: dados[index].id_categoria
+            }
+          }
+          );
+        } else if (i === 2) {
+          this.servicos3.push({
+            label: dados[index].nome,
+            value: {
+              id: dados[index].id,
+              nome: dados[index].nome,
+              id_categoria: dados[index].id_categoria
+            }
+          }
+          );
         }
       }
-      );
+    });
   }
 
   createServico(qtd: number): FormGroup {
@@ -287,11 +289,11 @@ export class PJuridicaComponent implements OnInit {
       id: [qtd],
       categoria: [null, Validators.required],
       servico: [null, Validators.required]
-    })
+    });
   }
 
   addServico(): void {
-    let val = this.formulario.get('qtdServicos').value;
+    const val = this.formulario.get('qtdServicos').value;
 
     if (val < 3) {
       const control = <FormArray>this.formulario.get('servicosPrestados');
@@ -308,7 +310,7 @@ export class PJuridicaComponent implements OnInit {
   }
 
   removeServico(index: number): void {
-    let val = this.formulario.get('qtdServicos').value;
+    const val = this.formulario.get('qtdServicos').value;
     if (val > 1) {
       const control = <FormArray>this.formulario.get('servicosPrestados');
       control.removeAt(index);
@@ -327,16 +329,16 @@ export class PJuridicaComponent implements OnInit {
 
     let cep = this.formulario.get('endereco.cep').value;
 
-    //Nova variável "cep" somente com dígitos.
+    // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, '');
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
+    // Verifica se campo cep possui valor informado.
+    if (cep !== '') {
 
-      //Expressão regular para validar o CEP.
-      var validacep = /^[0-9]{8}$/;
+      // Expressão regular para validar o CEP.
+      const validacep = /^[0-9]{8}$/;
 
-      //Valida o formato do CEP.
+      // Valida o formato do CEP.
       if (validacep.test(cep)) {
 
         this.resetDataForm();
