@@ -427,15 +427,7 @@ export class PFisicaComponent implements OnInit {
     });
   }
 
-  addUsuario(usuario: Usuario) {
-    this.usuarioService.createUsuario(usuario);
-  }
-
   addUser(user: User) {
     this.usuarioService.createUser(user);
-  }
-
-  addPessoaFisica(usuario: Usuario, prestador: Prestador, pessoaFisica: PessoaFisica) {
-    this.usuarioService.createPessoaFisica(usuario, prestador, pessoaFisica);
   }
 }

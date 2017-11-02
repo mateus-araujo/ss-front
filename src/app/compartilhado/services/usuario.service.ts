@@ -17,7 +17,7 @@ export class UsuarioService {
       .toPromise();
   }
 
-  login(user: User):Promise<User> {
+  login(user: User): Promise<User> {
     return this.http.post('http://sobralservicos.com.br/login', user)
       .toPromise()
       .then(response => response.json());
