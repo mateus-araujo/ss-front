@@ -13,12 +13,12 @@
               <span class="ui-inputgroup-addon">
                 <i class="fa fa-user"></i>
               </span>
-              <input type="text" pInputText formControlName="usuario" placeholder="Usuário ou email">
+              <input type="text" pInputText formControlName="email" placeholder="Seu email">
             </div>
           </div>
 
           <div class="ui-g-12">
-            <app-error-component [showError]="checkFieldValidation('usuario')" errorMsg="Usuario é requerido">
+            <app-error-component [showError]="checkFieldValidation('email')" errorMsg="Email é requerido">
             </app-error-component>
           </div>
         </div>

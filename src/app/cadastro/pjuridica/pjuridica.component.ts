@@ -1,3 +1,6 @@
+import { UsuarioService } from './../../compartilhado/services/usuario.service';
+import { User } from './../../compartilhado/models/user.model';
+import { Usuario } from './../../compartilhado/models/usuario.model';
 import { Servico } from './../../compartilhado/models/servico.model';
 import { CategoriaServicoService } from './../../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../../compartilhado/models/categoria-servico.model';
@@ -48,6 +51,7 @@ export class PJuridicaComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
+    private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
@@ -97,7 +101,7 @@ export class PJuridicaComponent implements OnInit {
       usuario: [null, [Validators.required]],
       senha: [null, [Validators.required, Validators.minLength(6)]],
       conf_senha: [null, [Validators.required, Validators.minLength(6)]],
-      tipo_usuario: [3],
+      tipo_usuario: [2],
       cnpj: [null, Validators.required],
       nomeFantasia: [null, Validators.required],
       razaoSocial: [null, Validators.required],
@@ -153,18 +157,47 @@ export class PJuridicaComponent implements OnInit {
         console.log(this.formulario);
 
         if (this.formulario.valid) {
-          this.http
-            .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-            .map(res => res)
-            .subscribe(
-            dados => {
-              console.log(dados);
-              // this.formulario.reset();
-            },
-            (error: any) => alert('erro')
-            );
+          const usuario = new User();
+          usuario.name = this.formulario.get('nomeFantasia').value;
+          usuario.email = this.formulario.get('email').value;
+          usuario.username = this.formulario.get('usuario').value;
+          usuario.password = this.formulario.get('senha').value;
+          usuario.tipo_usuario = this.formulario.get('tipo_usuario').value;
 
-          this.submitted = true;
+          usuario.telefone = this.formulario.get('telefone.telefone1').value;
+          usuario.celular = this.formulario.get('telefone.telefone2').value;
+          usuario.cep = this.formulario.get('endereco.cep').value;
+          usuario.bairro = this.formulario.get('endereco.bairro').value;
+          usuario.cidade = this.formulario.get('endereco.cidade').value;
+          usuario.estado = this.formulario.get('endereco.estado').value;
+          usuario.numero = this.formulario.get('endereco.numero').value;
+
+          if (this.formulario.get('servicosPrestados').value[0] !== undefined
+            && this.formulario.get('servicosPrestados').value[0]) {
+            usuario.id_serv_1 = this.formulario.get('servicosPrestados').value[0].servico.id;
+          } else { usuario.id_serv_1 = null; }
+
+          if (this.formulario.get('servicosPrestados').value[1] !== undefined
+            && this.formulario.get('servicosPrestados').value[1]) {
+            usuario.id_serv_2 = this.formulario.get('servicosPrestados').value[1].servico.id;
+          } else { usuario.id_serv_2 = null; }
+
+          if (this.formulario.get('servicosPrestados').value[2] !== undefined
+            && this.formulario.get('servicosPrestados').value[2]) {
+            usuario.id_serv_3 = this.formulario.get('servicosPrestados').value[2].servico.id;
+          } else { usuario.id_serv_3 = null; }
+
+          usuario.descricao = this.formulario.get('descricao').value;
+          usuario.tipo_prestador = '1';
+          usuario.avaliacao = 'avaliacao';
+          usuario.foto = 'foto';
+
+          usuario.cnpj = this.formulario.get('cnpj').value;
+          usuario.nome_fantasia = this.formulario.get('nomeFantasia').value;
+          usuario.razao_social = this.formulario.get('razaoSocial').value;
+
+          this.addUser(usuario);
+
           this.msgs = [];
           this.msgs = [{
             severity: 'success',
@@ -232,56 +265,59 @@ export class PJuridicaComponent implements OnInit {
   }
 
   buscarServicos(i: number) {
-    this.categoriaServicoService.getServicos(
-      this.formulario.get('servicosPrestados').value[i].categoria.id
-    )
-    .then((dados: Array<Servico>) => {
-      this.servicosI = dados;
+    const id_categoria = this.formulario.get('servicosPrestados').value[i].categoria.id;
 
-      if (i === 0) {
-        this.servicos1 = [];
-      } else if (i === 1) {
-        this.servicos2 = [];
-      } else if (i === 2) {
-        this.servicos3 = [];
-      }
+    console.log(this.formulario.get('servicosPrestados').value[i].categoria.id);
 
-      // console.log(this.formulario.get('servicosPrestados').value[i]);
+    this.categoriaServicoService.getServicos(id_categoria)
+      .then((dados: Array<Servico>) => {
+        this.servicosI = dados;
 
-      for (let index = 0; index < dados.length; index++) {
         if (i === 0) {
-          this.servicos1.push({
-            label: dados[index].nome,
-            value: {
-              id: dados[index].id,
-              nome: dados[index].nome,
-              id_categoria: dados[index].id_categoria
-            }
-          }
-          );
+          this.servicos1 = [];
         } else if (i === 1) {
-          this.servicos2.push({
-            label: dados[index].nome,
-            value: {
-              id: dados[index].id,
-              nome: dados[index].nome,
-              id_categoria: dados[index].id_categoria
-            }
-          }
-          );
+          this.servicos2 = [];
         } else if (i === 2) {
-          this.servicos3.push({
-            label: dados[index].nome,
-            value: {
-              id: dados[index].id,
-              nome: dados[index].nome,
-              id_categoria: dados[index].id_categoria
-            }
-          }
-          );
+          this.servicos3 = [];
         }
-      }
-    });
+
+        // console.log(i);
+        // console.log(this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id);
+
+        for (let index = 0; index < dados.length; index++) {
+          if (i === 0) {
+            this.servicos1.push({
+              label: dados[index].nome,
+              value: {
+                id: dados[index].id,
+                nome: dados[index].nome,
+                id_categoria: dados[index].id_categoria
+              }
+            }
+            );
+          } else if (i === 1) {
+            this.servicos2.push({
+              label: dados[index].nome,
+              value: {
+                id: dados[index].id,
+                nome: dados[index].nome,
+                id_categoria: dados[index].id_categoria
+              }
+            }
+            );
+          } else if (i === 2) {
+            this.servicos3.push({
+              label: dados[index].nome,
+              value: {
+                id: dados[index].id,
+                nome: dados[index].nome,
+                id_categoria: dados[index].id_categoria
+              }
+            }
+            );
+          }
+        }
+      });
   }
 
   createServico(qtd: number): FormGroup {
@@ -373,6 +409,10 @@ export class PJuridicaComponent implements OnInit {
         logradouro: null
       }
     });
+  }
+
+  addUser(user: User) {
+    this.usuarioService.createUser(user);
   }
 
   get diagnostic() {

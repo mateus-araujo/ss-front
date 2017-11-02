@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { User } from './../compartilhado/models/user.model';
+import { UsuarioService } from './../compartilhado/services/usuario.service';
 import { Http } from '@angular/http';
 import { Message } from 'primeng/primeng';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -15,14 +18,17 @@ export class LoginComponent implements OnInit {
   mostrar: boolean;
   msgs: Message[] = [];
   submitted: boolean;
+  usuario: User;
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: Http) { }
+    private http: Http,
+    private router: Router,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
-      usuario: [null, Validators.required],
+      email: [null, Validators.required],
       senha: [null, Validators.required],
       lembrar: [false]
     });
@@ -54,24 +60,33 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.formulario.valid) {
-      this.http
-        .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-        .map(res => res)
-        .subscribe(
-        dados => {
-          // console.log(dados);
-          this.formulario.reset();
-        },
-        (error: any) => alert('erro')
-        );
 
-      this.submitted = true;
-      this.msgs = [];
-      this.msgs = [{
-        severity: 'success',
-        summary: 'Login',
-        detail: 'Login realizado'
-      }];
+      const user = new User();
+      user.email = this.formulario.get('email').value;
+      user.password = this.formulario.get('senha').value;
+
+      this.usuarioService.login(user)
+        .then((dados: User) => {
+          this.usuario = dados;
+          console.log(this.usuario);
+
+          if (this.usuario.tipo_usuario === 1) {
+            this.router.navigate(['/home/user']);
+          } else if (this.usuario.tipo_usuario === 2) {
+            this.router.navigate(['/home/prestador']);
+          } else if (this.usuario.tipo_usuario === 3) {
+            this.router.navigate(['/home/admin']);
+          }
+
+          this.msgs = [];
+          this.msgs = [{
+            severity: 'success',
+            summary: 'Login',
+            detail: 'Login realizado'
+          }];
+        });
+
+      this.formulario.reset();
     } else {
       this.checkFormValidations(this.formulario);
 
@@ -87,16 +102,8 @@ export class LoginComponent implements OnInit {
 
   enviar() {
     if (this.recsenha.valid) {
-      this.http
-        .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-        .map(res => res)
-        .subscribe(
-        dados => {
-          // console.log(dados);
-          this.recsenha.reset();
-        },
-        (error: any) => alert('erro')
-        );
+      // console.log(dados);
+      this.recsenha.reset();
 
       this.submitted = true;
       this.msgs = [];
@@ -105,7 +112,7 @@ export class LoginComponent implements OnInit {
         summary: 'Email enviado',
         detail: 'Em breve você receberá um link para recuperação de senha'
       }];
-      this.mostrar = false; 
+      this.mostrar = false;
     } else {
       this.checkFormValidations(this.recsenha);
 

@@ -1,3 +1,4 @@
+import { UsuarioService } from './../compartilhado/services/usuario.service';
 import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
 import { DropdownService } from './../compartilhado/services/dropdown.service';
@@ -62,6 +63,6 @@ import { AdministradorCadastroComponent } from './administrador/administrador-ca
     AdministradorCadastroComponent,
     PrestadorCadastroComponent
   ],
-  providers: [DropdownService, CategoriaServicoService]
+  providers: [DropdownService, CategoriaServicoService, UsuarioService]
 })
 export class CadastroModule { }

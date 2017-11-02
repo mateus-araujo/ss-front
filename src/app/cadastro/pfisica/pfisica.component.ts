@@ -1,3 +1,8 @@
+import { User } from './../../compartilhado/models/user.model';
+import { UsuarioService } from './../../compartilhado/services/usuario.service';
+import { PessoaFisica } from './../../compartilhado/models/pessoa-fisica.model';
+import { Prestador } from './../../compartilhado/models/prestador.model';
+import { Usuario } from './../../compartilhado/models/usuario.model';
 import { Servico } from './../../compartilhado/models/servico.model';
 import { CategoriaServicoService } from './../../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../../compartilhado/models/categoria-servico.model';
@@ -44,6 +49,7 @@ export class PFisicaComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
+    private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
@@ -159,9 +165,54 @@ export class PFisicaComponent implements OnInit {
         console.log(this.formulario);
 
         if (this.formulario.valid) {
+          const usuario = new User();
+          usuario.name = this.formulario.get('nomeCompleto').value;
+          usuario.email = this.formulario.get('email').value;
+          usuario.username = this.formulario.get('usuario').value;
+          usuario.password = this.formulario.get('senha').value;
+          usuario.tipo_usuario = this.formulario.get('tipo_usuario').value;
 
+          if (usuario.tipo_usuario === 1) {
+            this.addUser(usuario);
+          } else if (usuario.tipo_usuario === 2) {
+            // const prestador = new Prestador();
+            usuario.telefone = this.formulario.get('prestadorDados.telefone.telefone1').value;
+            usuario.celular = this.formulario.get('prestadorDados.telefone.telefone2').value;
+            usuario.cep = this.formulario.get('prestadorDados.endereco.cep').value;
+            usuario.bairro = this.formulario.get('prestadorDados.endereco.bairro').value;
+            usuario.cidade = this.formulario.get('prestadorDados.endereco.cidade').value;
+            usuario.estado = this.formulario.get('prestadorDados.endereco.estado').value;
+            usuario.numero = this.formulario.get('prestadorDados.endereco.numero').value;
 
+            if (this.formulario.get('prestadorDados.servicosPrestados').value[0] !== undefined
+              && this.formulario.get('prestadorDados.servicosPrestados').value[0]) {
+              usuario.id_serv_1 = this.formulario.get('prestadorDados.servicosPrestados').value[0].servico.id;
+            } else { usuario.id_serv_1 = null; }
 
+            if (this.formulario.get('prestadorDados.servicosPrestados').value[1] !== undefined
+              && this.formulario.get('prestadorDados.servicosPrestados').value[1]) {
+              usuario.id_serv_2 = this.formulario.get('prestadorDados.servicosPrestados').value[1].servico.id;
+            } else { usuario.id_serv_2 = null; }
+
+            if (this.formulario.get('prestadorDados.servicosPrestados').value[2] !== undefined
+              && this.formulario.get('prestadorDados.servicosPrestados').value[2]) {
+              usuario.id_serv_3 = this.formulario.get('prestadorDados.servicosPrestados').value[2].servico.id;
+            } else { usuario.id_serv_3 = null; }
+
+            usuario.descricao = this.formulario.get('prestadorDados.descricao').value;
+            usuario.tipo_prestador = '2';
+            usuario.avaliacao = 'avaliacao';
+            usuario.foto = 'foto';
+
+            // const pessoaFisica = new PessoaFisica();
+            usuario.cpf = this.formulario.get('prestadorDados.cpf').value;
+            usuario.sexo = this.formulario.get('prestadorDados.sexo').value;
+            usuario.curriculum = 'curriculum';
+
+            this.addUser(usuario);
+          }
+
+          console.log(usuario);
           this.msgs = [];
           this.msgs = [{
             severity: 'success',
@@ -228,9 +279,9 @@ export class PFisicaComponent implements OnInit {
   }
 
   buscarServicos(i: number) {
-    this.categoriaServicoService.getServicos(
-      this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id
-    )
+    const id_categoria = this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id;
+
+    this.categoriaServicoService.getServicos(id_categoria)
       .then((dados: Array<Servico>) => {
         this.servicosI = dados;
 
@@ -242,7 +293,8 @@ export class PFisicaComponent implements OnInit {
           this.servicos3 = [];
         }
 
-        // console.log(this.formulario.get('prestadorDados.servicosPrestados').value[i]);
+        // console.log(i);
+        // console.log(this.formulario.get('prestadorDados.servicosPrestados').value[i].categoria.id);
 
         for (let index = 0; index < dados.length; index++) {
           if (i === 0) {
@@ -359,7 +411,6 @@ export class PFisicaComponent implements OnInit {
         }
       }
     });
-
   }
 
   resetDataForm() {
@@ -376,7 +427,15 @@ export class PFisicaComponent implements OnInit {
     });
   }
 
-  get diagnostic() {
-    return JSON.stringify(this.formulario.value);
+  addUsuario(usuario: Usuario) {
+    this.usuarioService.createUsuario(usuario);
+  }
+
+  addUser(user: User) {
+    this.usuarioService.createUser(user);
+  }
+
+  addPessoaFisica(usuario: Usuario, prestador: Prestador, pessoaFisica: PessoaFisica) {
+    this.usuarioService.createPessoaFisica(usuario, prestador, pessoaFisica);
   }
 }
