@@ -1,24 +1,39 @@
 <nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid ui-g ui-fluid">
-    <div class="navbar-header ui-g-2">
-      <a class="navbar-brand" routerLink="/home/prestador">Sobral Serviços</a>
-    </div>
-
-    <div class="ui-g-5">
-      <div class="ui-g-9">
-        <input type="text" pInputText placeholder="Procure um serviço...">
+  <form [formGroup]="formulario" (ngSubmit)="buscar()">
+    <div class="container-fluid ui-g ui-fluid">
+      <div class="navbar-header ui-g-2">
+        <a class="navbar-brand" routerLink="/home/prestador">Sobral Serviços</a>
       </div>
-      <div class="ui-g-3">
-        <app-busca></app-busca>
+      <div class="ui-g-5">
+        <div class="ui-g-9">
+          <input type="text" formControlName="campoBusca" pInputText placeholder="Procure um serviço...">
+        </div>
+        <div class="ui-g-3" *ngIf="!formulario.controls['campoBusca'].value">
+          <app-busca-dialog></app-busca-dialog>
+        </div>
+        <div class="ui-g-3" *ngIf="formulario.controls['campoBusca'].value">
+          <button pButton type="submit" label="Buscar" routerLink="/home/prestador/busca" (click)="buscar()" icon="fa-search">
+          </button>
+        </div>
       </div>
+      <div class="ui-g-5">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/home/prestador/cadastro">Serviços prestados</a>
+          </li>
+          <li>
+            <a routerLink="/home/prestador/login">Solicitações de serviço</a>
+          </li>
+          <li>
+            <a routerLink="/home/prestador/cadastro">Cadastrar</a>
+          </li>
+          <li>
+            <a routerLink="/home/prestador/perfil">Perfil</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
-    <div class="ui-g-5">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a routerLink="/home/prestador/cadastro">Serviços prestados</a></li>
-        <li><a routerLink="/home/prestador/login">Solicitações de serviço</a></li>
-        <li><a routerLink="/home/prestador/cadastro">Cadastrar</a></li>
-        <li><a routerLink="/home/prestador/login">Login</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    <!-- /.container-fluid -->
+  </form>
 </nav>

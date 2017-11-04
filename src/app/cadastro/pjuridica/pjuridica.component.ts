@@ -115,7 +115,7 @@ export class PJuridicaComponent implements OnInit {
         cidade: [null, Validators.required],
         bairro: [null, Validators.required],
         logradouro: [null, Validators.required],
-        complemento: [null, Validators.required],
+        complemento: [null],
         numero: [null, Validators.required]
       }),
       servicosPrestados: this.formBuilder.array([
@@ -125,12 +125,6 @@ export class PJuridicaComponent implements OnInit {
       descricao: [null, Validators.required]
     });
   }
-
-  /* passwordConfirming(c: AbstractControl): { invalid: boolean } {
-    if (c.get('senha').value !== c.get('conf_senha').value) {
-      return { invalid: true };
-    }
-  } */
 
   cancelar() {
     this.confirmationService.confirm({

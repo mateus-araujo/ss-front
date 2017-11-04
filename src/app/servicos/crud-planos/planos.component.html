@@ -1,0 +1,156 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+<p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
+
+<p-dataTable [value]="planos">
+  <p-header>Planos disponíveis</p-header>
+  <p-column field="nome" header="Nome" [sortable]="true"></p-column>
+  <p-column field="preco" header="Preço" [sortable]="true"></p-column>
+  <p-column field="pessoa_tipo" header="Tipo de pessoa" [sortable]="true"></p-column>
+
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Editar
+    </ng-template>
+    <ng-template let-plano="rowData" pTemplate="body">
+      <button type="button" pButton (click)="dialogUpPlano(plano)" icon="fa-pencil-square-o"></button>
+    </ng-template>
+  </p-column>
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Excluir
+    </ng-template>
+    <ng-template let-plano="rowData" pTemplate="body">
+      <button type="button" pButton (click)="removerPlano(plano)" icon="fa-trash-o"></button>
+    </ng-template>
+  </p-column>
+
+  <p-footer>
+    <div class="ui-helper-clearfix" style="width:100%">
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddPlano()" label="Novo plano">
+      </button>
+    </div>
+  </p-footer>
+</p-dataTable>
+
+<p-dialog header="Novo plano" [(visible)]="displayAddPlano" [responsive]="true" showEffect="fade" [modal]="true" [contentStyle]="{'overflow':'visible'}"
+  [width]="500">
+  <form [formGroup]="planoForm" (ngSubmit)="salvarPlano()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="nome">Nome *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="nome" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('nome', planoForm)" errorMsg="Preencha com algum nome">
+            </app-error-component>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="preco">Preco *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="preco" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('preco', planoForm)" errorMsg="Preencha com algum preço">
+            </app-error-component>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="pessoa">Pessoa *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <p-radioButton name="groupname" value="1" label="Pessoa física" formControlName="pessoa"></p-radioButton>
+            <p-radioButton name="groupname" value="2" label="Pessoa jurídica" formControlName="pessoa"></p-radioButton>
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('pessoa', planoForm)" errorMsg="Seleciona um tipo de pessoa">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarAddPlano()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="salvarPlano()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>
+
+<p-dialog header="Editar plano" [(visible)]="displayUpPlano" [responsive]="true" showEffect="fade" [modal]="true" [contentStyle]="{'overflow':'visible'}"
+  [width]="500">
+  <form [formGroup]="planoForm" (ngSubmit)="editarPlano()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="nome">Nome *:</label>
+          </div>
+      
+          <div class="ui-g-9">
+            <input pInputText formControlName="nome" />
+          </div>
+      
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('nome', planoForm)" errorMsg="Preencha com algum nome">
+            </app-error-component>
+          </div>
+        </div>
+      
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="preco">Preco *:</label>
+          </div>
+      
+          <div class="ui-g-9">
+            <input pInputText formControlName="preco" />
+          </div>
+      
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('preco', planoForm)" errorMsg="Preencha com algum preço">
+            </app-error-component>
+          </div>
+        </div>
+      
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="pessoa">Pessoa *:</label>
+          </div>
+      
+          <div class="ui-g-9">
+            <p-radioButton name="groupname" value="1" label="Pessoa física" formControlName="pessoa"></p-radioButton>
+            <p-radioButton name="groupname" value="2" label="Pessoa jurídica" formControlName="pessoa"></p-radioButton>
+          </div>
+      
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('pessoa', planoForm)" errorMsg="Seleciona um tipo de pessoa">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarUpPlano()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="editarPlano()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>

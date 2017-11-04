@@ -1,7 +1,10 @@
+import { BuscaDialogComponent } from './busca-dialog.component';
+import { BuscaTextoComponent } from './../busca-texto/busca-texto.component';
+import { NavBarModule } from './../nav-bar/nav-bar.module';
+import { BuscaService } from './../compartilhado/services/busca.service';
 import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BuscaComponent } from './busca.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,8 +22,8 @@ import { DropdownModule, InputTextModule, ButtonModule, DialogModule } from 'pri
     DropdownModule,
     InputTextModule
   ],
-  providers: [CategoriaServicoService],
-  declarations: [ BuscaComponent ],
-  exports: [ BuscaComponent ]
+  providers: [CategoriaServicoService, BuscaService],
+  declarations: [BuscaDialogComponent],
+  exports: [BuscaDialogComponent]
 })
-export class BuscaModule { }
+export class BuscaDialogModule { }

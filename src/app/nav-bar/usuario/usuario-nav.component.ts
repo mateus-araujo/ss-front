@@ -1,3 +1,5 @@
+import { Http } from '@angular/http';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsuarioNavComponent implements OnInit {
 
-  constructor() { }
+  formulario: FormGroup;
+
+  constructor(private formBuilder: FormBuilder,
+    private http: Http) { }
 
   ngOnInit() {
+    this.formulario = this.formBuilder.group({
+      campoBusca: [null]
+    });
+  }
+
+  buscar() {
+    console.log(this.formulario.value);
   }
 
 }

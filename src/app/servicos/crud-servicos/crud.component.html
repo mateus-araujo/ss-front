@@ -1,14 +1,10 @@
 <p-growl [value]="msgs" sticky="sticky"></p-growl>
 
-<p-confirmDialog icon="fa fa-question-circle" width="425" #cd>
-  <p-footer>
-    <button type="button" pButton icon="fa-close" label="Não" (click)="cd.reject()"></button>
-    <button type="button" pButton icon="fa-check" label="Sim" (click)="cd.accept()"></button>
-  </p-footer>
-</p-confirmDialog>
+<p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
 
 <p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias">
-  <p-column field="nome" header="Nome" [sortable]="true"></p-column>
+  <p-header>Categorias</p-header>
+  <p-column field="nome" header="Nome da categoria" [sortable]="true"></p-column>
   <p-column styleClass="col-button">
     <ng-template pTemplate="header">
       Editar
@@ -34,18 +30,17 @@
       <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddServico()" label="Novo Serviço">
       </button>
 
-      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showCategorias()" label="Mostrar categorias">
-      </button>
-
       <button type="button" pButton icon="fa-eye" style="float:right" (click)="showServicos()" label="Mostrar serviços">
       </button>
     </div>
   </p-footer>
 </p-dataTable>
 
-<p-dataTable [value]="servicos" *ngIf="mostrarServicos">
-  <p-column field="nome" header="Nome" [sortable]="true"></p-column>
-  <p-column field="id_categoria" header="id_categoria" [sortable]="true"></p-column>
+<p-dataTable [value]="servicos" *ngIf="mostrarServicos"
+   sortField="categoria" rowGroupMode="rowspan">
+  <p-header>Serviços</p-header>
+  <p-column field="categoria" header="Categoria" sortable="true"></p-column>
+  <p-column field="nome" header="Nome do serviço" [sortable]="true"></p-column>
   <p-column styleClass="col-button">
     <ng-template pTemplate="header">
       Editar
@@ -72,9 +67,6 @@
       </button>
 
       <button type="button" pButton icon="fa-eye" style="float:right" (click)="showCategorias()" label="Mostrar categorias">
-      </button>
-
-      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showServicos()" label="Mostrar serviços">
       </button>
     </div>
   </p-footer>

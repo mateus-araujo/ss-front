@@ -5,18 +5,16 @@ import { DropdownService } from './../compartilhado/services/dropdown.service';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/primeng';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-busca',
-  templateUrl: './busca.component.html',
-  styleUrls: ['./busca.component.css']
+  selector: 'app-busca-dialog',
+  templateUrl: './busca-dialog.component.html',
+  styleUrls: ['./busca-dialog.component.css']
 })
-export class BuscaComponent implements OnInit {
+export class BuscaDialogComponent implements OnInit {
 
   formulario: FormGroup;
-  submitted: boolean;
-
   mostrar: boolean;
 
   categoriasI: CategoriaServico[];
@@ -54,7 +52,6 @@ export class BuscaComponent implements OnInit {
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
-      nome: [null],
       categoria: [null, Validators.required],
       servico: [null]
     });
@@ -86,24 +83,13 @@ export class BuscaComponent implements OnInit {
 
   buscar() {
     if (this.formulario.valid) {
-      this.http
-        .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-        .map(res => res)
-        .subscribe(
-        dados => {
-          // console.log(dados);
-          console.log(this.formulario.value);
-          this.formulario.reset();
-          this.mostrar = false;
-        },
-        (error: any) => alert('erro')
-        );
 
-      this.submitted = true;
+      console.log(this.formulario.value);
+      this.formulario.reset();
+      this.mostrar = false;
+
     } else {
       this.checkFormValidations(this.formulario);
-
-      this.submitted = false;
     }
   }
 

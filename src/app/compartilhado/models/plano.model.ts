@@ -3,4 +3,5 @@ export class Plano {
     nome: string;
     preco: number;
     pessoa: number;
+    pessoa_tipo: string;
 }

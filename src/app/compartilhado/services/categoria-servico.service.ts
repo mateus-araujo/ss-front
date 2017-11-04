@@ -23,7 +23,8 @@ export class CategoriaServicoService {
 
   getCategorias(): Promise<Array<CategoriaServico>> {
     return this.http.get('http://sobralservicos.com.br/categorias')
-      .toPromise().then(response => response.json());
+      .toPromise()
+      .then(response => response.json());
   }
 
   getServicos(id: number): Promise<Array<Servico>> {

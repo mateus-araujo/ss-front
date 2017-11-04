@@ -1,0 +1,24 @@
+<div class="ui-g">
+  <div class="ui-g-4">
+    <h3>Nome</h3>
+  </div>
+  <div class="ui-g-8">
+    <h3>Status</h3>
+  </div>
+
+  <div class="ui-g-12" *ngFor="let prestador of prestadores">
+    <div class="ui-g-4">
+      {{ prestador.name }}
+    </div>
+    <div class="ui-g-8">
+
+      <p-growl [value]="msgs"></p-growl>
+      <p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
+      <button pButton type="button" (click)="aprovar()" label="Aprovar">
+      </button>
+      
+      <button pButton type="button" (click)="recusar()" label="Recusar">
+      </button>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,7 @@ export class CrudComponent implements OnInit {
   mostrarServicos: boolean;
 
   servicos: Array<Servico>;
+  categoria: any;
   categoriasServico: Array<CategoriaServico>;
   categorias: SelectItem[];
 
@@ -58,7 +59,19 @@ export class CrudComponent implements OnInit {
 
     this.categoriaServicoService
       .getAllServicos()
-      .then((servicos: Array<Servico>) => this.servicos = servicos);
+      .then((dados: Array<Servico>) => {
+        this.servicos = dados;
+
+        // this.servicos = [];
+        for (let index = 0; index < dados.length; index++) {
+
+          const id_categoria = dados[index].id_categoria;
+
+          this.categoriaServicoService.getCategoria(id_categoria)
+            .then((dado: CategoriaServico) =>
+              this.servicos[index].categoria = dado.nome);
+        }
+      });
 
   }
 
@@ -73,10 +86,6 @@ export class CrudComponent implements OnInit {
       categoria: [null, Validators.required],
       servico: [null, Validators.required]
     });
-  }
-
-  reloadPage() {
-    window.location.reload();
   }
 
   checkFieldValidation(field, formulario: FormGroup) {
@@ -244,7 +253,8 @@ export class CrudComponent implements OnInit {
     this.servicoForm.controls['id'].patchValue(servico.id);
     this.servicoForm.controls['servico'].patchValue(servico.nome);
     this.servicoForm.controls['categoria'].patchValue({
-      'id': servico.id_categoria
+      'id': servico.id_categoria,
+      'nome': servico.categoria
     });
     this.displayUpServico = true;
   }

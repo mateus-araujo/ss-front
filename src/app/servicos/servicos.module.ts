@@ -1,3 +1,7 @@
+import { PlanosComponent } from './crud-planos/planos.component';
+import { UsuarioService } from './../compartilhado/services/usuario.service';
+import { CrudComponent } from './crud-servicos/crud.component';
+import { AprovarComponent } from './aprovar/aprovar.component';
 import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
@@ -16,8 +20,6 @@ import {
   MenubarModule, MenuItem, MenuModule, PanelModule, PasswordModule,
   PickListModule, RadioButtonModule, SharedModule, TabMenuModule, TabViewModule
 } from 'primeng/primeng';
-
-import { CrudComponent } from './crud/crud.component';
 
 @NgModule({
   imports: [
@@ -53,7 +55,7 @@ import { CrudComponent } from './crud/crud.component';
     TabMenuModule,
     TabViewModule
   ],
-  providers: [ ConfirmationService ],
-  declarations: [ServicosComponent, CrudComponent]
+  providers: [ ConfirmationService],
+  declarations: [ServicosComponent, CrudComponent, AprovarComponent, PlanosComponent]
 })
 export class ServicosModule { }

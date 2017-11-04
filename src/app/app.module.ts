@@ -1,3 +1,6 @@
+import { BuscaTextoModule } from './busca-texto/busca-texto.module';
+import { BuscaDialogModule } from './busca-dialog/busca-dialog.module';
+import { PerfilModule } from './perfil/perfil.module';
 import { CompartilhadoModule } from './compartilhado/compartilhado.module';
 import { HomeModule } from './home/home.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,7 +22,7 @@ import { ServicosModule } from './servicos/servicos.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -29,11 +32,14 @@ import { ServicosModule } from './servicos/servicos.module';
 
     AppRoutingModule,
     CadastroModule,
+    BuscaDialogModule,
+    BuscaTextoModule,
     HomeModule,
     NavBarModule,
     LoginModule,
     CompartilhadoModule,
-    ServicosModule
+    ServicosModule,
+    PerfilModule
   ],
   providers: [],
   bootstrap: [AppComponent]

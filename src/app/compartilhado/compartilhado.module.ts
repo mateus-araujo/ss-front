@@ -1,3 +1,5 @@
+import { UsuarioService } from './services/usuario.service';
+import { PlanosService } from './services/planos.service';
 import { CategoriaServicoService } from './services/categoria-servico.service';
 import { HttpModule } from '@angular/http';
 import { DropdownService } from './services/dropdown.service';
@@ -19,6 +21,10 @@ import { ErrorComponent } from './error-component/error.component';
     FormDebugComponent,
     ErrorComponent
   ],
-  providers: [ DropdownService, CategoriaServicoService ]
+  providers: [
+    CategoriaServicoService,
+    DropdownService,
+    PlanosService,
+    UsuarioService]
 })
 export class CompartilhadoModule { }

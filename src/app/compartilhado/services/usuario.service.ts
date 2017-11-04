@@ -1,8 +1,4 @@
 import { User } from './../models/user.model';
-import { PessoaJuridica } from './../models/pessoa-juridica.model';
-import { PessoaFisica } from './../models/pessoa-fisica.model';
-import { Prestador } from './../models/prestador.model';
-import { Usuario } from './../models/usuario.model';
 import { Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
@@ -22,6 +18,19 @@ export class UsuarioService {
       .toPromise()
       .then(response => response.json());
   }
+
+  logout() {
+    return this.http.get('http://sobralservicos.com.br/logout')
+      .toPromise();
+  }
+
+
+  getPrestadores(): Promise<Array<User>> {
+    return this.http.get('http://sobralservicos.com.br/prestadores')
+      .toPromise()
+      .then(response => response.json());
+  }
+
 
 
 }

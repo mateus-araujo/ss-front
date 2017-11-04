@@ -1,0 +1,80 @@
+<app-nav-prestador></app-nav-prestador>
+
+<fieldset class="perfil-fs">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-1">
+        <strong>Nome: </strong>
+      </div>
+      <div class="ui-g-11">
+        <label>João da Silva</label>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <strong>Serviços oferecidos:</strong>
+      </div>
+
+      <div class="ui-g-1">
+        <label>Eletricista</label>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <div class="ui-g-2">
+        <strong>Avaliação: </strong>
+      </div>
+
+      <div class="ui-g-10">
+        <p-rating ngModel="5" readonly="true" stars="5" [cancel]="false"></p-rating>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <fieldset>
+        <div class="ui-g-12">
+          <strong>Descrição: </strong>
+        </div>
+
+        <div class="ui-g-12">
+          <label>Meu nome é João da Silva, tenho bastante experiência nessa área já trabalhei na coelce e fiz vários trabalhos domésticos
+          </label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="ui-g-12">
+      <h3 class="center">Opiniões sobre o profissional</h3>
+    </div>
+
+    <div class="ui-g-12">
+      <fieldset>
+        <form class="form" [formGroup]="formulario" (ngSubmit)="enviarPergunta()">
+          <div class="ui-g-12">
+            <div class="ui-g-4">
+              <input pInputText type="text" formControlName="pergunta" placeholder="Faça uma pergunta">
+            </div>
+            <div class="ui-g-2">
+              <button pButton type="submit" (click)="enviarPergunta()" label="Perguntar" [disabled]="">
+              </button>
+            </div>
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="ui-g center">
+    <div class="ui-g-12">
+      <p-growl [value]="msgs"></p-growl>
+      <p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
+      
+      <button pButton type="button" (click)="voltar()" label="Voltar">
+      </button>
+
+      <button pButton type="button" (click)="contratar()" label="Contratar">
+      </button>
+    </div>
+  </div>
+</fieldset>
