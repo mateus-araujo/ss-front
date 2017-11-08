@@ -1,3 +1,4 @@
+import { GlobalService } from './../compartilhado/services/global.service';
 import { Router } from '@angular/router';
 import { User } from './../compartilhado/models/user.model';
 import { UsuarioService } from './../compartilhado/services/usuario.service';
@@ -24,7 +25,11 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router,
-    private usuarioService: UsuarioService) { }
+    private globalService: GlobalService,
+    private usuarioService: UsuarioService) {
+
+      this.usuario = null;
+    }
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
@@ -70,20 +75,37 @@ export class LoginComponent implements OnInit {
           this.usuario = dados;
           console.log(this.usuario);
 
-          if (this.usuario.tipo_usuario === 1) {
-            this.router.navigate(['/home/user']);
-          } else if (this.usuario.tipo_usuario === 2) {
-            this.router.navigate(['/home/prestador']);
-          } else if (this.usuario.tipo_usuario === 3) {
-            this.router.navigate(['/home/admin']);
-          }
+          this.globalService.updateUsuario(this.usuario.tipo_usuario);
 
-          this.msgs = [];
-          this.msgs = [{
-            severity: 'success',
-            summary: 'Login',
-            detail: 'Login realizado'
-          }];
+          this.globalService.usuarioTipo.subscribe(
+            (tipo_usuario: number) => {
+              if (tipo_usuario === 1) {
+                this.router.navigate(['/home/user']);
+              } else if (tipo_usuario === 2) {
+                this.router.navigate(['/home/prestador']);
+              } else if (tipo_usuario === 3) {
+                this.router.navigate(['/home/admin']);
+              }
+            }
+          );
+
+          if (this.usuario === null) {
+            this.msgs = [];
+            this.msgs = [{
+              severity: 'warn',
+              summary: 'Login',
+              detail: 'Dados incorretos, tente novamente'
+            }];
+          } else if (this.usuario) {
+            this.msgs = [];
+            this.msgs = [{
+              severity: 'success',
+              summary: 'Login',
+              detail: 'Login realizado'
+            }];
+
+            this.globalService.updateLogin(true);
+          }
         });
 
       this.formulario.reset();
@@ -95,7 +117,7 @@ export class LoginComponent implements OnInit {
       this.msgs = [{
         severity: 'error',
         summary: 'Login',
-        detail: 'Dados incorretos'
+        detail: 'Dados incorretos, tente novamente'
       }];
     }
   }

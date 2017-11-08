@@ -18,8 +18,11 @@
           </div>
 
           <div class="ui-g-12">
-            <app-error-component [showError]="checkFieldValidation('email')" errorMsg="Email é requerido">
-            </app-error-component>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['email'].valid && formulario.controls['email'].dirty">
+              <i class="fa fa-close"></i>
+              <span *ngIf="formulario.controls['email'].errors['required']">Email requirido;</span>
+              <span *ngIf="formulario.controls['email'].errors['email']">Digite um email válido;</span>
+            </div>
           </div>
         </div>
 
@@ -87,5 +90,5 @@
       </div>
     </p-panel>
   </form>
-  <app-form-debug [form]="formulario"></app-form-debug>
+  <!-- <app-form-debug [form]="formulario"></app-form-debug> -->
 </div>

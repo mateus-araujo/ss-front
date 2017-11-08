@@ -1,3 +1,4 @@
+import { GlobalService } from './compartilhado/services/global.service';
 import { BuscaTextoModule } from './busca-texto/busca-texto.module';
 import { BuscaDialogModule } from './busca-dialog/busca-dialog.module';
 import { PerfilModule } from './perfil/perfil.module';
@@ -41,7 +42,7 @@ import { ServicosModule } from './servicos/servicos.module';
     ServicosModule,
     PerfilModule
   ],
-  providers: [],
+  providers: [GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

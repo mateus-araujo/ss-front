@@ -2,7 +2,8 @@
 
 <p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
 
-<p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias">
+<p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias"
+  sortField="nome">
   <p-header>Categorias</p-header>
   <p-column field="nome" header="Nome da categoria" [sortable]="true"></p-column>
   <p-column styleClass="col-button">
@@ -39,7 +40,7 @@
 <p-dataTable [value]="servicos" *ngIf="mostrarServicos"
    sortField="categoria" rowGroupMode="rowspan">
   <p-header>Serviços</p-header>
-  <p-column field="categoria" header="Categoria" sortable="true"></p-column>
+  <p-column field="categoria" header="Categoria" [sortable]="true"></p-column>
   <p-column field="nome" header="Nome do serviço" [sortable]="true"></p-column>
   <p-column styleClass="col-button">
     <ng-template pTemplate="header">
@@ -66,7 +67,7 @@
       <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddServico()" label="Novo Serviço">
       </button>
 
-      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showCategorias()" label="Mostrar categorias">
+      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showCategorias()" label="Mostrar apenas categorias">
       </button>
     </div>
   </p-footer>

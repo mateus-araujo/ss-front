@@ -9,34 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrestadorPerfilComponent implements OnInit {
 
-  formulario: FormGroup;
-  msgs: Message[] = [];
-  
-  constructor(
-    private confirmationService: ConfirmationService,
-    private formBuilder: FormBuilder
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.formulario = this.formBuilder.group({
-      pergunta: [null]
-    });
-  }
-
-  enviarPergunta() {
-    console.log(this.formulario.value);
-  }
-
-  voltar() {
-
-  }
-
-  contratar() {
-    this.confirmationService.confirm({
-      message: 'Você deseja contratar esse profissional?',
-      accept: () => {
-        // Actual logic to perform a confirmation
-      }
-    });
   }
 }

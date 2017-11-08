@@ -1,3 +1,4 @@
+import { GlobalService } from './../../compartilhado/services/global.service';
 import { UsuarioService } from './../../compartilhado/services/usuario.service';
 import { User } from './../../compartilhado/models/user.model';
 import { Usuario } from './../../compartilhado/models/usuario.model';
@@ -52,6 +53,7 @@ export class PJuridicaComponent implements OnInit {
     private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
     private usuarioService: UsuarioService,
+    private globalService: GlobalService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
@@ -160,11 +162,15 @@ export class PJuridicaComponent implements OnInit {
 
           usuario.telefone = this.formulario.get('telefone.telefone1').value;
           usuario.celular = this.formulario.get('telefone.telefone2').value;
+          usuario.rg = 'rg';
+          usuario.data_nasc = 'pj';
           usuario.cep = this.formulario.get('endereco.cep').value;
           usuario.bairro = this.formulario.get('endereco.bairro').value;
           usuario.cidade = this.formulario.get('endereco.cidade').value;
+          usuario.complemento = this.formulario.get('endereco.complemento').value;
           usuario.estado = this.formulario.get('endereco.estado').value;
           usuario.numero = this.formulario.get('endereco.numero').value;
+          usuario.aprovado = 1; // usuário pendente a aprovação
 
           if (this.formulario.get('servicosPrestados').value[0] !== undefined
             && this.formulario.get('servicosPrestados').value[0]) {
@@ -182,7 +188,7 @@ export class PJuridicaComponent implements OnInit {
           } else { usuario.id_serv_3 = null; }
 
           usuario.descricao = this.formulario.get('descricao').value;
-          usuario.tipo_prestador = '1';
+          usuario.tipo_prestador = 1; // prestador pessoa jurídica
           usuario.avaliacao = 'avaliacao';
           usuario.foto = 'foto';
 
@@ -198,6 +204,24 @@ export class PJuridicaComponent implements OnInit {
             summary: 'Confirmado',
             detail: 'Cadastro concluído'
           }];
+
+          this.formulario.reset();
+
+          this.globalService.usuarioTipo.subscribe(
+            (tipo_usuario: number) => {
+              if (tipo_usuario === 1) {
+                this.router.navigate(['/home/user/login']);
+              }
+
+              if (tipo_usuario === 2) {
+                this.router.navigate(['/home/prestador/login']);
+              }
+
+              if (tipo_usuario === 3) {
+                this.router.navigate(['/home/admin/login']);
+              }
+            }
+          );
         } else {
           console.log('formulário inválido');
 

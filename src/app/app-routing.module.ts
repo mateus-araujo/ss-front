@@ -1,6 +1,8 @@
-import { BuscaAdministradorComponent } from './busca-texto/busca-administrador/busca-administrador.component';
-import { BuscaPrestadorComponent } from './busca-texto/busca-prestador/busca-prestador.component';
-import { BuscaUsuarioComponent } from './busca-texto/busca-usuario/busca-usuario.component';
+import { UsuarioPerfilComponent } from './perfil/usuario/usuario-perfil.component';
+import { PerfilAdministradorComponent } from './perfil/administrador/perfil-administrador.component';
+import { BuscaAdministradorComponent } from './busca-texto/administrador/busca-administrador.component';
+import { BuscaPrestadorComponent } from './busca-texto/prestador/busca-prestador.component';
+import { BuscaUsuarioComponent } from './busca-texto/usuario/busca-usuario.component';
 import { BuscaTextoComponent } from './busca-texto/busca-texto.component';
 import { PrestadorPerfilComponent } from './perfil/prestador/prestador-perfil.component';
 import { ServicosComponent } from './servicos/servicos.component';
@@ -21,18 +23,20 @@ const appRoutes: Routes = [
   { path: 'home/user', component: UsuarioHomeComponent },
   { path: 'home/user/login', component: UsuarioLoginComponent },
   { path: 'home/user/cadastro', component: UsuarioCadastroComponent },
+  { path: 'home/user/perfil/:id', component: UsuarioPerfilComponent },
   { path: 'home/user/busca', component: BuscaUsuarioComponent },
 
   { path: 'home/prestador', component: PrestadorHomeComponent },
   { path: 'home/prestador/login', component: PrestadorLoginComponent },
   { path: 'home/prestador/cadastro', component: PrestadorCadastroComponent },
-  { path: 'home/prestador/perfil', component: PrestadorPerfilComponent },
+  { path: 'home/prestador/perfil/:id', component: PrestadorPerfilComponent },
   { path: 'home/prestador/busca', component: BuscaPrestadorComponent },
 
   { path: 'home/admin', component: AdministradorHomeComponent },
   { path: 'home/admin/login', component: AdministradorLoginComponent },
   { path: 'home/admin/cadastro', component: AdministradorCadastroComponent },
   { path: 'home/admin/servicos', component: ServicosComponent },
+  { path: 'home/admin/perfil/:id', component: PerfilAdministradorComponent },
   { path: 'home/admin/busca', component: BuscaAdministradorComponent },
 
   { path: '', redirectTo: '/home/user', pathMatch: 'full' },

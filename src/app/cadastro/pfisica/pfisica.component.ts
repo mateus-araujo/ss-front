@@ -1,3 +1,4 @@
+import { GlobalService } from './../../compartilhado/services/global.service';
 import { User } from './../../compartilhado/models/user.model';
 import { UsuarioService } from './../../compartilhado/services/usuario.service';
 import { PessoaFisica } from './../../compartilhado/models/pessoa-fisica.model';
@@ -50,6 +51,7 @@ export class PFisicaComponent implements OnInit {
     private categoriaServicoService: CategoriaServicoService,
     private dropdownService: DropdownService,
     private usuarioService: UsuarioService,
+    private globalService: GlobalService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
@@ -175,14 +177,18 @@ export class PFisicaComponent implements OnInit {
           if (usuario.tipo_usuario === 1) {
             this.addUser(usuario);
           } else if (usuario.tipo_usuario === 2) {
-            // const prestador = new Prestador();
             usuario.telefone = this.formulario.get('prestadorDados.telefone.telefone1').value;
             usuario.celular = this.formulario.get('prestadorDados.telefone.telefone2').value;
+            usuario.rg = this.formulario.get('prestadorDados.rg').value;
+            usuario.data_nasc = this.formulario.get('prestadorDados.dataNascimento').value;
             usuario.cep = this.formulario.get('prestadorDados.endereco.cep').value;
             usuario.bairro = this.formulario.get('prestadorDados.endereco.bairro').value;
+            usuario.logradouro = this.formulario.get('prestadorDados.endereco.logradouro').value;
             usuario.cidade = this.formulario.get('prestadorDados.endereco.cidade').value;
+            usuario.complemento = this.formulario.get('prestadorDados.endereco.complemento').value;
             usuario.estado = this.formulario.get('prestadorDados.endereco.estado').value;
             usuario.numero = this.formulario.get('prestadorDados.endereco.numero').value;
+            usuario.aprovado = 1; // usuário pendente a aprovação
 
             if (this.formulario.get('prestadorDados.servicosPrestados').value[0] !== undefined
               && this.formulario.get('prestadorDados.servicosPrestados').value[0]) {
@@ -200,11 +206,10 @@ export class PFisicaComponent implements OnInit {
             } else { usuario.id_serv_3 = null; }
 
             usuario.descricao = this.formulario.get('prestadorDados.descricao').value;
-            usuario.tipo_prestador = '2';
-            usuario.avaliacao = 'avaliacao';
+            usuario.tipo_prestador = 2; // prestador pessoa física
+            usuario.avaliacao = 'avalicao';
             usuario.foto = 'foto';
 
-            // const pessoaFisica = new PessoaFisica();
             usuario.cpf = this.formulario.get('prestadorDados.cpf').value;
             usuario.sexo = this.formulario.get('prestadorDados.sexo').value;
             usuario.curriculum = 'curriculum';
@@ -219,6 +224,24 @@ export class PFisicaComponent implements OnInit {
             summary: 'Confirmado',
             detail: 'Cadastro concluído'
           }];
+
+          this.formulario.reset();
+
+          this.globalService.usuarioTipo.subscribe(
+            (tipo_usuario: number) => {
+              if (tipo_usuario === 1) {
+                this.router.navigate(['/home/user/login']);
+              }
+
+              if (tipo_usuario === 2) {
+                this.router.navigate(['/home/prestador/login']);
+              }
+
+              if (tipo_usuario === 3) {
+                this.router.navigate(['/home/admin/login']);
+              }
+            }
+          );
         } else {
           console.log('formulário inválido');
 
@@ -236,7 +259,6 @@ export class PFisicaComponent implements OnInit {
             detail: 'Corrija os dados e tente novamente'
           }];
         }
-        // this.router.navigate(['/home']);
       },
       reject: () => {
         this.msgs = [{

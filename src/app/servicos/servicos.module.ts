@@ -20,6 +20,7 @@ import {
   MenubarModule, MenuItem, MenuModule, PanelModule, PasswordModule,
   PickListModule, RadioButtonModule, SharedModule, TabMenuModule, TabViewModule
 } from 'primeng/primeng';
+import { RelatorioBuscaComponent } from './relatorio-busca/relatorio-busca.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,7 @@ import {
     TabMenuModule,
     TabViewModule
   ],
-  providers: [ ConfirmationService],
-  declarations: [ServicosComponent, CrudComponent, AprovarComponent, PlanosComponent]
+  providers: [ConfirmationService],
+  declarations: [ServicosComponent, CrudComponent, AprovarComponent, PlanosComponent, RelatorioBuscaComponent]
 })
 export class ServicosModule { }

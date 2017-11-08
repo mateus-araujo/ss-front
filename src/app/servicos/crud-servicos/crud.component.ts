@@ -1,3 +1,4 @@
+import { GlobalService } from './../../compartilhado/services/global.service';
 import { SelectItem, Message, ConfirmationService } from 'primeng/primeng';
 import { Servico } from './../../compartilhado/models/servico.model';
 import { CategoriaServicoService } from './../../compartilhado/services/categoria-servico.service';
@@ -55,6 +56,7 @@ export class CrudComponent implements OnInit {
             }
           });
         }
+        this.categorias.sort();
       });
 
     this.categoriaServicoService
@@ -72,7 +74,6 @@ export class CrudComponent implements OnInit {
               this.servicos[index].categoria = dado.nome);
         }
       });
-
   }
 
   ngOnInit() {

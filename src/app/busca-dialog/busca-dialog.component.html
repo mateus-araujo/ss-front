@@ -1,5 +1,5 @@
 <p-dialog header="Buscar" [(visible)]="mostrar" [contentStyle]="{'overflow':'visible'}" [width]="500">
-  <form [formGroup]="formulario" (ngSubmit)="buscar()">
+  <form [formGroup]="formulario" (ngSubmit)="buscarF()">
     <fieldset>
       <div class="ui-g ui-fluid">
         <div class="ui-g-12">
@@ -29,7 +29,7 @@
 
         <div class="ui-g-2"></div>
         <div class="ui-g-4">
-          <button pButton type="submit" (click)="buscar()" label="Buscar"></button>
+          <button pButton type="submit" (click)="buscarF()" label="Buscar"></button>
         </div>
         <div class="ui-g-4">
           <button pButton type="button" (click)="voltar()" label="Voltar"></button>

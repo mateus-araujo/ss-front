@@ -1,3 +1,4 @@
+import { BuscaTextoModule } from './../busca-texto/busca-texto.module';
 import { BuscaDialogModule } from './../busca-dialog/busca-dialog.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuarioNavComponent } from './usuario/usuario-nav.component';

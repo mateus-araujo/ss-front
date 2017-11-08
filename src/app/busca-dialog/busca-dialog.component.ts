@@ -1,3 +1,8 @@
+import { Router } from '@angular/router';
+import { GlobalService } from './../compartilhado/services/global.service';
+import { User } from './../compartilhado/models/user.model';
+import { BuscaService } from './../compartilhado/services/busca.service';
+import { Busca } from './../compartilhado/models/busca.model';
 import { Servico } from './../compartilhado/models/servico.model';
 import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../compartilhado/models/categoria-servico.model';
@@ -25,8 +30,11 @@ export class BuscaDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private buscaService: BuscaService,
     private categoriaServicoService: CategoriaServicoService,
+    private globalService: GlobalService,
     private dropdownService: DropdownService,
+    private router: Router,
     private http: Http
   ) {
 
@@ -81,8 +89,40 @@ export class BuscaDialogComponent implements OnInit {
     this.mostrar = false;
   }
 
-  buscar() {
+  buscarF() {
     if (this.formulario.valid) {
+
+      const busca = new Busca;
+      if (this.formulario.get('categoria').value !== undefined
+        && this.formulario.get('categoria').value) {
+        busca.id_categoria = this.formulario.get('categoria').value.id;
+      }
+      if (this.formulario.get('servico').value !== undefined
+        && this.formulario.get('servico').value) {
+        busca.id_servico = this.formulario.get('servico').value.id;
+      }
+
+      this.buscaService.getPrestadores(
+        busca
+      ).then((dados: Array<User>) => {
+        this.globalService.updatePrestadores(dados);
+      });
+
+      this.globalService.usuarioTipo.subscribe(
+        (tipo_usuario: number) => {
+          if (tipo_usuario === 1) {
+            this.router.navigate(['/home/user/busca']);
+          }
+
+          if (tipo_usuario === 2) {
+            this.router.navigate(['/home/prestador/busca']);
+          }
+
+          if (tipo_usuario === 3) {
+            this.router.navigate(['/home/admin/busca']);
+          }
+        }
+      );
 
       console.log(this.formulario.value);
       this.formulario.reset();

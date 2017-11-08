@@ -1,3 +1,38 @@
-<p>
-  busca-texto works!
-</p>
+<div class="card" *ngFor="let prestador of prestadores">
+  <div class="card-block">
+    <h5 class="card-title">{{ prestador.name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted" [innerHTML]="prestador.descricao"></h6>
+    <p class="card-text">
+      <span>Serviços prestados: </span>
+      <span *ngIf="prestador.nome_serv_1">{{ prestador.nome_serv_1 }}</span>
+      <span *ngIf="prestador.nome_serv_2">, {{ prestador.nome_serv_2 }}</span>
+      <span *ngIf="prestador.nome_serv_3">, {{ prestador.nome_serv_3 }}</span>
+    </p>
+    <div class="text-right">
+      <button pButton type="submit" label="Ver perfil" (click)="verPerfil(prestador.usuario_id)">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <fieldset class="ui-g-12 card">
+    <div class="ui-g-12">
+      <div class="ui-g-1">
+        <strong>Nome: </strong>
+      </div>
+      <div class="ui-g-5">
+        <span>{{ prestador.name }}</span>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-3">
+        <strong>Serviços prestados: </strong>
+      </div>
+      <div class="ui-g-5">
+        <span *ngIf="prestador.nome_serv_1">{{ prestador.nome_serv_1 }}</span>
+        <span *ngIf="prestador.nome_serv_2">, {{ prestador.nome_serv_2 }}</span>
+        <span *ngIf="prestador.nome_serv_3">, {{ prestador.nome_serv_3 }}</span>
+      </div>
+    </div>
+  </fieldset>
+</div> -->

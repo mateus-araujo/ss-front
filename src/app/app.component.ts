@@ -1,3 +1,4 @@
+import { User } from './compartilhado/models/user.model';
 import { Component } from '@angular/core';
 
 @Component({

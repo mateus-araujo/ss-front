@@ -1,4 +1,39 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded ui-g ui-fluid">
+  <div class="ui-g-2">
+    <a class="navbar-brand" routerLink="/home/user">Sobral Serviços</a>
+  </div>
+
+  <div class="ui-g-8">
+    <form [formGroup]="formulario" (ngSubmit)="buscar()">
+      <div class="ui-g-8">
+        <input type="text" formControlName="campoBusca" pInputText placeholder="Procure um serviço...">
+      </div>
+      <div class="ui-g-2" *ngIf="formulario.controls['campoBusca'].value">
+        <button pButton type="submit" label="Buscar" (click)="buscar()" icon="fa-search">
+        </button>
+      </div>
+    </form>
+    <div class="ui-g-2" *ngIf="!formulario.controls['campoBusca'].value">
+      <app-busca-dialog></app-busca-dialog>
+    </div>
+  </div>
+
+  <div class="ui-g-2">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/home/user/cadastro">Cadastrar</a>
+      </li>
+      <li class="nav-item active" *ngIf="!check_login">
+        <a class="nav-link" routerLink="/home/user/login" (click)="login()">Login</a>
+      </li>
+      <li class="nav-item active" *ngIf="check_login">
+        <a class="nav-link" routerLink="/home/user" (click)="sair()">Sair</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- <nav class="navbar navbar-default navbar-static-top">
   <form [formGroup]="formulario" (ngSubmit)="buscar()">
     <div class="container-fluid ui-g ui-fluid">
       <div class="navbar-header ui-g-2">
@@ -12,7 +47,7 @@
           <app-busca-dialog></app-busca-dialog>
         </div>
         <div class="ui-g-2" *ngIf="formulario.controls['campoBusca'].value">
-          <button pButton type="submit" label="Buscar" routerLink="/home/user/busca" (click)="buscar()" icon="fa-search">
+          <button pButton type="submit" label="Buscar" (click)="buscar()" icon="fa-search">
           </button>
         </div>
       </div>
@@ -26,10 +61,6 @@
           </li>
         </ul>
       </div>
-      <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid -->
   </form>
-</nav>
-
-<router-outlet></router-outlet>
+</nav> -->
