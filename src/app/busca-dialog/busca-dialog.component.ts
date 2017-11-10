@@ -41,6 +41,10 @@ export class BuscaDialogComponent implements OnInit {
     this.categoriaServicoService.getCategorias()
       .then((dados: Array<CategoriaServico>) => {
         this.categoriasI = dados;
+        dados = dados.sort(function (a, b: CategoriaServico) {
+          return (a.nome > b.nome) ? 1 : ((b.nome > a.nome) ? -1 : 0);
+        });
+
 
         this.categorias = [];
         for (let index = 0; index < dados.length; index++) {
@@ -138,10 +142,11 @@ export class BuscaDialogComponent implements OnInit {
       this.formulario.get('categoria').value.id
     ).then((dados: Array<Servico>) => {
       this.servicosI = dados;
+      dados = dados.sort(function (a, b: Servico) {
+        return (a.nome > b.nome) ? 1 : ((b.nome > a.nome) ? -1 : 0);
+      });
+
       this.servicos = [];
-
-      // console.log(this.formulario.get('categoria').value);
-
       for (let index = 0; index < dados.length; index++) {
         this.servicos.push({
           label: dados[index].nome,

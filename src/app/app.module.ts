@@ -1,3 +1,4 @@
+import { AuthGuard } from './compartilhado/guard/auth.guard';
 import { GlobalService } from './compartilhado/services/global.service';
 import { BuscaTextoModule } from './busca-texto/busca-texto.module';
 import { BuscaDialogModule } from './busca-dialog/busca-dialog.module';
@@ -19,11 +20,13 @@ import { CadastroModule } from './cadastro/cadastro.module';
 import { LoginModule } from './login/login.module';
 import { NavBarModule } from './nav-bar/nav-bar.module';
 import { ServicosModule } from './servicos/servicos.module';
+import { PrestadorSolitacoesComponent } from './prestador-solitacoes/prestador-solitacoes.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PrestadorSolitacoesComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import { ServicosModule } from './servicos/servicos.module';
     ServicosModule,
     PerfilModule
   ],
-  providers: [GlobalService],
+  providers: [GlobalService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

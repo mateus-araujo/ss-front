@@ -56,7 +56,6 @@ export class CrudComponent implements OnInit {
             }
           });
         }
-        this.categorias.sort();
       });
 
     this.categoriaServicoService

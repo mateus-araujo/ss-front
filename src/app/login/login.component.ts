@@ -76,15 +76,19 @@ export class LoginComponent implements OnInit {
           console.log(this.usuario);
 
           this.globalService.updateUsuario(this.usuario.tipo_usuario);
+          this.globalService.updateLogin(true);
 
           this.globalService.usuarioTipo.subscribe(
             (tipo_usuario: number) => {
               if (tipo_usuario === 1) {
                 this.router.navigate(['/home/user']);
+                window.location.reload();
               } else if (tipo_usuario === 2) {
                 this.router.navigate(['/home/prestador']);
+                window.location.reload();
               } else if (tipo_usuario === 3) {
                 this.router.navigate(['/home/admin']);
+                window.location.reload();
               }
             }
           );
@@ -103,8 +107,6 @@ export class LoginComponent implements OnInit {
               summary: 'Login',
               detail: 'Login realizado'
             }];
-
-            this.globalService.updateLogin(true);
           }
         });
 

@@ -1,3 +1,4 @@
+import { Message } from 'primeng/primeng';
 import { UsuarioService } from './../compartilhado/services/usuario.service';
 import { Usuario } from './../compartilhado/models/usuario.model';
 import { Router } from '@angular/router';
@@ -24,6 +25,8 @@ export class BuscaTextoComponent implements OnInit {
   prestadores: Array<User>;
   servico: Servico;
   pesquisa: string;
+  not_found: boolean;
+  msgs: Message[] = [];
 
   constructor(
     private globalService: GlobalService,
@@ -33,12 +36,25 @@ export class BuscaTextoComponent implements OnInit {
     private http: Http,
     private router: Router
   ) {
+
+    this.not_found = false;
   }
 
   ngOnInit() {
     this.globalService.prestadoresBusca.subscribe(
       (dados: Array<User>) => {
         this.prestadores = dados;
+        console.log(this.prestadores.length);
+        if (this.prestadores.length === 0) {
+          this.not_found = true;
+
+          this.msgs = [];
+          this.msgs.push({
+            severity: 'warn',
+            summary: 'Busca',
+            detail: 'Não foram encontrados resultados'
+          });
+        }
 
         // console.log(dados);
 
@@ -83,14 +99,17 @@ export class BuscaTextoComponent implements OnInit {
         console.log(id);
         if (tipo_usuario === 1) {
           this.router.navigate(['/home/user/perfil', id]);
+          window.location.reload();
         }
 
         if (tipo_usuario === 2) {
           this.router.navigate(['/home/prestador/perfil', id]);
+          window.location.reload();
         }
 
         if (tipo_usuario === 3) {
           this.router.navigate(['/home/admin/perfil', id]);
+          window.location.reload();
         }
       }
     );

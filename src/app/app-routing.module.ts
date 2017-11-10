@@ -1,3 +1,4 @@
+import { PrestadorSolitacoesComponent } from './prestador-solitacoes/prestador-solitacoes.component';
 import { UsuarioPerfilComponent } from './perfil/usuario/usuario-perfil.component';
 import { PerfilAdministradorComponent } from './perfil/administrador/perfil-administrador.component';
 import { BuscaAdministradorComponent } from './busca-texto/administrador/busca-administrador.component';
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
   { path: 'home/prestador/cadastro', component: PrestadorCadastroComponent },
   { path: 'home/prestador/perfil/:id', component: PrestadorPerfilComponent },
   { path: 'home/prestador/busca', component: BuscaPrestadorComponent },
+  { path: 'home/prestador/solicitacoes', component: PrestadorSolitacoesComponent },
 
   { path: 'home/admin', component: AdministradorHomeComponent },
   { path: 'home/admin/login', component: AdministradorLoginComponent },

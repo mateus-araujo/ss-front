@@ -19,6 +19,7 @@ export class UsuarioNavComponent implements OnInit {
 
   formulario: FormGroup;
   check_login: boolean;
+  tipo_usuario: number;
 
   constructor(
     private globalService: GlobalService,
@@ -26,16 +27,33 @@ export class UsuarioNavComponent implements OnInit {
     private buscaService: BuscaService,
     private usuarioService: UsuarioService,
     private http: Http,
-    private router: Router) {
-
-    this.globalService.updateUsuario(1);
-
-    this.globalService.checkLogin.subscribe(
-      (login: boolean) => this.check_login = login
-    );
-  }
+    private router: Router) { }
 
   ngOnInit() {
+    try {
+      this.usuarioService.checkLogin().then(
+        (usuario: User) => {
+          this.globalService.updateLogin(true);
+          this.globalService.updateUsuario(usuario.tipo_usuario);
+          this.check_login = true;
+          this.tipo_usuario = usuario.tipo_usuario;
+
+          console.log(this.check_login);
+          console.log(this.tipo_usuario);
+
+          if (this.tipo_usuario !== 1) {
+            if (this.tipo_usuario === 2) {
+              this.router.navigate(['/home/prestador']);
+            } else {
+              this.router.navigate(['/home/admin']);
+            }
+          }
+        }
+      );
+    } catch (error) {
+      //
+    }
+    
     this.formulario = this.formBuilder.group({
       campoBusca: [null]
     });
@@ -54,8 +72,14 @@ export class UsuarioNavComponent implements OnInit {
     });
   }
 
+  home() {
+    window.location.reload();
+  }
+
   sair() {
+    this.usuarioService.logout();
     this.globalService.updateLogin(false);
+    this.router.navigate(['/home/user']);
     window.location.reload();
   }
 

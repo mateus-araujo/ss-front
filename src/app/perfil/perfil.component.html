@@ -66,6 +66,27 @@
             <span>{{ perfil.numero }}</span>
           </div>
         </div>
+        <form [formGroup]="selectServico" (ngSubmit)="solicitarServico()">
+          <div class="ui-g-12">
+            <div class="ui-g-12">
+              <label for="pessoa">Selecione um serviço *:</label>
+            </div>
+            
+            <div class="ui-g-12">
+              <p-radioButton name="groupname" value="{{perfil.id_serv_1}}" label="{{perfil.nome_serv_1}}" formControlName="servico" *ngIf="perfil.id_serv_1"></p-radioButton>
+            </div>
+            <div class="ui-g-12">
+              <p-radioButton name="groupname" value="{{perfil.id_serv_2}}" label="{{perfil.nome_serv_2}}" formControlName="servico" *ngIf="perfil.id_serv_2"></p-radioButton>
+            </div>
+            <div class="ui-g-12">
+              <p-radioButton name="groupname" value="{{perfil.id_serv_3}}" label="{{perfil.nome_serv_3}}" formControlName="servico" *ngIf="perfil.id_serv_3"></p-radioButton>
+            </div>
+            <div class="ui-g-3">
+              <button pButton type="submit" label="Solicitar serviço" [disabled]="">
+              </button>
+            </div>
+          </div>
+        </form>
       </fieldset>
     </div>
 

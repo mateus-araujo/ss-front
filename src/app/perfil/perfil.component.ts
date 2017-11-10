@@ -1,3 +1,5 @@
+import { ServicoPrestadoService } from './../compartilhado/services/servico-prestado.service';
+import { ServicoPrestado } from './../compartilhado/models/servico-prestado';
 import { CategoriaServicoService } from './../compartilhado/services/categoria-servico.service';
 import { CategoriaServico } from './../compartilhado/models/categoria-servico.model';
 import { Servico } from './../compartilhado/models/servico.model';
@@ -5,7 +7,7 @@ import { GlobalService } from './../compartilhado/services/global.service';
 import { User } from './../compartilhado/models/user.model';
 import { UsuarioService } from './../compartilhado/services/usuario.service';
 import { Message, ConfirmationService } from 'primeng/primeng';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
@@ -20,8 +22,11 @@ export class PerfilComponent implements OnInit {
   id: number;
   subscription: Subscription;
   perfil: User;
+  check_login: boolean;
+  lastServico: boolean;
 
   formulario: FormGroup;
+  selectServico: FormGroup;
   msgs: Message[] = [];
   contrato: boolean;
 
@@ -30,14 +35,21 @@ export class PerfilComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private usuarioService: UsuarioService,
     private categoriaServicoService: CategoriaServicoService,
+    private servicoPrestadoService: ServicoPrestadoService,
     private globalService: GlobalService,
     private formBuilder: FormBuilder,
     private router: Router) {
 
     this.contrato = false;
+    this.lastServico = false;
+
+    this.selectServico = this.formBuilder.group({
+      servico: [null, Validators.required]
+    });
   }
 
   ngOnInit() {
+
     this.route.params.subscribe(
       (params: any) => {
         this.id = params['id'];
@@ -87,6 +99,36 @@ export class PerfilComponent implements OnInit {
     console.log(this.formulario.value);
   }
 
+  solicitarServico() {
+    const servico = new ServicoPrestado();
+    this.usuarioService.checkLogin().then(
+      (user: User) => servico.id_solicitante = user.id);
+    servico.id_prestador = this.perfil.prestador_id;
+    servico.id_servico = this.selectServico.get('servico').value;
+
+    console.log(servico);
+
+    if (this.lastServico === true) {
+      this.msgs = [];
+      this.msgs = [{
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Você já requisitou um serviço'
+      }];
+    } else {
+      this.servicoPrestadoService.createServicoPrestado(servico);
+
+      this.msgs = [];
+      this.msgs = [{
+        severity: 'success',
+        summary: 'Concluido',
+        detail: 'Solicitação enviada'
+      }];
+
+      this.lastServico = true;
+    }
+  }
+
   voltar() {
     this.globalService.usuarioTipo.subscribe(
       (tipo_usuario: number) => {
@@ -112,7 +154,21 @@ export class PerfilComponent implements OnInit {
     this.confirmationService.confirm({
       message: 'Você deseja contratar esse profissional?',
       accept: () => {
-        this.contrato = true;
+
+        this.globalService.checkLogin.subscribe(
+          (login: boolean) => this.check_login = login
+        );
+
+        if (this.check_login) {
+          this.contrato = true;
+        } else {
+          this.msgs = [];
+          this.msgs = [{
+            severity: 'error',
+            summary: 'Usuário não logado',
+            detail: 'Realize login e tente novamente'
+          }];
+        }
       },
       reject: () => {
         this.contrato = false;

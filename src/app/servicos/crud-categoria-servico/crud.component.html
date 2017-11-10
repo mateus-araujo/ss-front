@@ -1,9 +1,13 @@
 <p-growl [value]="msgs" sticky="sticky"></p-growl>
 
-<p-confirmDialog acceptLabel="Sim" rejectLabel="Não"></p-confirmDialog>
+<p-confirmDialog icon="fa fa-question-circle" width="425" #cd>
+  <p-footer>
+    <button type="button" pButton icon="fa-check" label="Sim" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="fa-close" label="Não" (click)="cd.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
 
-<p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias"
-  sortField="nome">
+<p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias" sortField="nome">
   <p-header>Categorias</p-header>
   <p-column field="nome" header="Nome da categoria" [sortable]="true"></p-column>
   <p-column styleClass="col-button">
@@ -37,8 +41,7 @@
   </p-footer>
 </p-dataTable>
 
-<p-dataTable [value]="servicos" *ngIf="mostrarServicos"
-   sortField="categoria" rowGroupMode="rowspan">
+<p-dataTable [value]="servicos" *ngIf="mostrarServicos" sortField="categoria" rowGroupMode="rowspan">
   <p-header>Serviços</p-header>
   <p-column field="categoria" header="Categoria" [sortable]="true"></p-column>
   <p-column field="nome" header="Nome do serviço" [sortable]="true"></p-column>

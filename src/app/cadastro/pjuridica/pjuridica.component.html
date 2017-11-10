@@ -47,27 +47,8 @@
           <label>Senha *: </label>
         </div>
 
-        <div class="ui-g-4">
+        <div class="ui-g-6">
           <input type="password" pPassword formControlName="senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Digite sua senha">
-        </div>
-
-        <div class="ui-g-3">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['senha'].valid && 
-                  (formulario.controls['senha'].touched || 
-                  formulario.controls['senha'].dirty)">
-            <i class="fa fa-close"></i>
-            <span *ngIf="formulario.controls['senha'].errors['required']">
-              Senha requerida;
-            </span>
-            <span *ngIf="formulario.controls['senha'].errors['minlength']">
-              Senha deve ter pelo menos de 6 caracteres;
-            </span>
-            <span *ngIf="formulario.controls['senha'].value != 
-            formulario.controls['conf_senha'].value &&
-            formulario.controls['conf_senha'].value != null">
-              Senhas diferentes;
-            </span>
-          </div>
         </div>
 
       </div>
@@ -78,23 +59,50 @@
           <label>Confirmar senha *: </label>
         </div>
 
-        <div class="ui-g-4">
+        <div class="ui-g-6">
           <input type="password" pPassword formControlName="conf_senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Confirme sua senha senha">
         </div>
 
-        <div class="ui-g-3">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['conf_senha'].valid && 
-                  (formulario.controls['conf_senha'].touched || 
-                  formulario.controls['conf_senha'].dirty)">
-            <i class="fa fa-close"></i>
-            <span *ngIf="formulario.controls['senha'].value != 
-                         formulario.controls['conf_senha'].value &&
-                         formulario.controls['conf_senha'].value != null">
-              Senhas diferentes;
-            </span>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2"></div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['senha'].valid && 
+                                      (formulario.controls['senha'].touched || 
+                                      formulario.controls['senha'].dirty)">
+                <i class="fa fa-close"></i>
+                <span *ngIf="formulario.controls['senha'].errors['required']">
+                  Senha requerida;
+                </span>
+                <span *ngIf="formulario.controls['senha'].errors['minlength']">
+                  Senha deve ter pelo menos de 6 caracteres;
+                </span>
+                <span *ngIf="formulario.controls['senha'].value != 
+                                formulario.controls['conf_senha'].value &&
+                                formulario.controls['conf_senha'].value != null">
+                  Senhas diferentes;
+                </span>
+              </div>
+            </div>
+      
+            <div class="ui-grid-col-2"></div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['conf_senha'].valid && 
+                                    (formulario.controls['conf_senha'].touched || 
+                                    formulario.controls['conf_senha'].dirty)">
+                <i class="fa fa-close"></i>
+                <span *ngIf="formulario.controls['senha'].value != 
+                                           formulario.controls['conf_senha'].value &&
+                                           formulario.controls['conf_senha'].value != null">
+                  Senhas diferentes;
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -158,33 +166,34 @@
         <div class="ui-g-4">
           <label>Telefone 1 *:</label>
         </div>
-
-        <div class="ui-g-4">
-          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone1">
+    
+        <div class="ui-g-6">
+          <p-inputMask mask="(99) 9999-9999" autoClear="false" formControlName="telefone1">
           </p-inputMask>
         </div>
-
-        <div class="ui-g-4">
-          <app-error-component [showError]="checkFieldValidation('telefone.telefone1')" errorMsg="Telefone é requerido">
-          </app-error-component>
-        </div>
       </div>
-
+    
       <div class="ui-g-6">
         <div class="ui-g-4">
           <label>Telefone 2 *:</label>
         </div>
-
-        <div class="ui-g-4">
-          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone2">
+    
+        <div class="ui-g-6">
+          <p-inputMask mask="(99) 9999-9999" autoClear="false" formControlName="telefone2">
           </p-inputMask>
         </div>
-
-        <div class="ui-g-4">
-          <app-error-component [showError]="checkFieldValidation('telefone.telefone2')" errorMsg="Telefone é requerido">
-          </app-error-component>
+      </div>
+    
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-6">
+              <app-error-component [showError]="checkFieldValidation('telefone.telefone1')" errorMsg="Cep é requerido">
+              </app-error-component>
+            </div>
+            <div class="ui-grid-col-6"></div>
+          </div>
         </div>
-
       </div>
     </div>
 

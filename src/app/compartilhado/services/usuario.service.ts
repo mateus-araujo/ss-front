@@ -24,9 +24,10 @@ export class UsuarioService {
       .toPromise();
   }
 
-  checkLogin() {
+  checkLogin(): Promise<User> {
     return this.http.get('http://sobralservicos.com.br/check_login')
-      .toPromise();
+      .toPromise()
+      .then(response => response.json());
   }
 
   getPrestadores(): Promise<Array<User>> {
@@ -37,6 +38,12 @@ export class UsuarioService {
 
   getPrestador(id: number): Promise<User> {
     return this.http.get(`http://sobralservicos.com.br/prestador/${id}`)
+      .toPromise()
+      .then(response => response.json());
+  }
+
+  getUser(id: number): Promise<User> {
+    return this.http.get(`http://sobralservicos.com.br/user/${id}`)
       .toPromise()
       .then(response => response.json());
   }

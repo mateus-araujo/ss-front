@@ -1,0 +1,231 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+<p-confirmDialog icon="fa fa-question-circle" width="425" #cd>
+  <p-footer>
+    <button type="button" pButton icon="fa-close" label="Não" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa-check" label="Sim" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+
+<p-dataTable [value]="categoriasServico" *ngIf="mostrarCategorias"
+  sortField="nome">
+  <p-header>Categorias</p-header>
+  <p-column field="nome" header="Nome da categoria" [sortable]="true"></p-column>
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Editar
+    </ng-template>
+    <ng-template let-categoria="rowData" pTemplate="body">
+      <button type="button" pButton (click)="dialogUpCategoria(categoria)" icon="fa-pencil-square-o"></button>
+    </ng-template>
+  </p-column>
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Excluir
+    </ng-template>
+    <ng-template let-categoria="rowData" pTemplate="body">
+      <button type="button" pButton (click)="removerCategoria(categoria)" icon="fa-trash-o"></button>
+    </ng-template>
+  </p-column>
+
+  <p-footer>
+    <div class="ui-helper-clearfix" style="width:100%">
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddCategoria()" label="Nova categoria">
+      </button>
+
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddServico()" label="Novo Serviço">
+      </button>
+
+      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showServicos()" label="Mostrar serviços">
+      </button>
+    </div>
+  </p-footer>
+</p-dataTable>
+
+<p-dataTable [value]="servicos" *ngIf="mostrarServicos"
+   sortField="categoria" rowGroupMode="rowspan">
+  <p-header>Serviços</p-header>
+  <p-column field="categoria" header="Categoria" [sortable]="true"></p-column>
+  <p-column field="nome" header="Nome do serviço" [sortable]="true"></p-column>
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Editar
+    </ng-template>
+    <ng-template let-servico="rowData" pTemplate="body">
+      <button type="button" pButton (click)="dialogUpServico(servico)" icon="fa-pencil-square-o"></button>
+    </ng-template>
+  </p-column>
+  <p-column styleClass="col-button">
+    <ng-template pTemplate="header">
+      Excluir
+    </ng-template>
+    <ng-template let-servico="rowData" pTemplate="body">
+      <button type="button" pButton (click)="removerServico(servico)" icon="fa-trash-o"></button>
+    </ng-template>
+  </p-column>
+
+  <p-footer>
+    <div class="ui-helper-clearfix" style="width:100%">
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddCategoria()" label="Nova categoria">
+      </button>
+
+      <button type="button" pButton icon="fa-plus" style="float:left" (click)="dialogAddServico()" label="Novo Serviço">
+      </button>
+
+      <button type="button" pButton icon="fa-eye" style="float:right" (click)="showCategorias()" label="Mostrar apenas categorias">
+      </button>
+    </div>
+  </p-footer>
+</p-dataTable>
+
+<p-dialog header="Nova categoria" [(visible)]="displayAddCategoria" [responsive]="true" showEffect="fade" [modal]="true"
+  [contentStyle]="{'overflow':'visible'}" [width]="500">
+  <form [formGroup]="categoriaForm" (ngSubmit)="salvarCategoria()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Categoria *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="categoria" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('categoria', categoriaForm)" errorMsg="Preencha com alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarAddCategoria()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="salvarCategoria()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>
+
+<p-dialog header="Editar categoria" [(visible)]="displayUpCategoria" [responsive]="true" showEffect="fade" [modal]="true"
+  [contentStyle]="{'overflow':'visible'}" [width]="500">
+  <form [formGroup]="categoriaForm" (ngSubmit)="editarCategoria()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Categoria *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="categoria" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('categoria', categoriaForm)" errorMsg="Preencha com alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarUpCategoria()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="editarCategoria()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>
+
+<p-dialog header="Novo serviço" [(visible)]="displayAddServico" [responsive]="true" showEffect="fade" [modal]="true" [contentStyle]="{'overflow':'visible'}"
+  [width]="500">
+  <form [formGroup]="servicoForm" (ngSubmit)="salvarServico()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Categoria *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <p-dropdown [options]="categorias" filter="filter" formControlName="categoria" [style]="{'width':'320px'}" placeholder="Selecione uma categoria">
+            </p-dropdown>
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('categoria', servicoForm)" errorMsg="Selecione alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Serviço *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="servico" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('servico', servicoForm)" errorMsg="Selecione alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarAddServico()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="salvarServico()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>
+
+<p-dialog header="Edita serviço" [(visible)]="displayUpServico" [responsive]="true" showEffect="fade" [modal]="true" [contentStyle]="{'overflow':'visible'}"
+  [width]="500">
+  <form [formGroup]="servicoForm" (ngSubmit)="editarServico()">
+    <fieldset>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Categoria *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <p-dropdown [options]="categorias" filter="filter" formControlName="categoria" [style]="{'width':'320px'}" placeholder="Selecione uma categoria">
+            </p-dropdown>
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('categoria', servicoForm)" errorMsg="Selecione alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-3">
+            <label for="categoria">Serviço *:</label>
+          </div>
+
+          <div class="ui-g-9">
+            <input pInputText formControlName="servico" />
+          </div>
+
+          <div class="ui-g-offset-3 ui-g-9">
+            <app-error-component [showError]="checkFieldValidation('servico', servicoForm)" errorMsg="Selecione alguma categoria">
+            </app-error-component>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" (click)="voltarUpServico()" label="Cancelar"></button>
+          <button type="submit" pButton icon="fa-check" (click)="editarServico()" label="Salvar"></button>
+        </div>
+      </p-footer>
+    </fieldset>
+  </form>
+</p-dialog>

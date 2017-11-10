@@ -3,7 +3,7 @@ import { BuscaPrestadorComponent } from './prestador/busca-prestador.component';
 import { BuscaUsuarioComponent } from './usuario/busca-usuario.component';
 import { BuscaAdministradorComponent } from './administrador/busca-administrador.component';
 import { CompartilhadoModule } from './../compartilhado/compartilhado.module';
-import { ButtonModule, InputTextModule } from 'primeng/primeng';
+import { ButtonModule, InputTextModule, GrowlModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuscaTextoComponent } from './busca-texto.component';
 import { NgModule } from '@angular/core';
@@ -18,7 +18,8 @@ import { CommonModule } from '@angular/common';
     NavBarModule,
 
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    GrowlModule
   ],
   declarations: [BuscaTextoComponent, BuscaAdministradorComponent, BuscaUsuarioComponent, BuscaPrestadorComponent],
   exports: [BuscaTextoComponent]

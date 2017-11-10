@@ -44,89 +44,87 @@
         <div class="ui-g-2">
           <label>Usuário *: </label>
         </div>
-
         <div class="ui-g-4">
           <input type="text" pInputText formControlName="usuario">
         </div>
-
         <div class="ui-g-4">
           <app-error-component [showError]="checkFieldValidation('usuario')" errorMsg="Usuário é requerido">
           </app-error-component>
         </div>
-
       </div>
 
       <div class="ui-g-6">
-
         <div class="ui-g-4">
           <label>Senha *: </label>
         </div>
-
-        <div class="ui-g-4">
+        <div class="ui-g-6">
           <input type="password" pPassword formControlName="senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Digite sua senha">
         </div>
-
-        <div class="ui-g-3">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['senha'].valid && 
-                  (formulario.controls['senha'].touched || 
-                  formulario.controls['senha'].dirty)">
-            <i class="fa fa-close"></i>
-            <span *ngIf="formulario.controls['senha'].errors['required']">
-              Senha requerida;
-            </span>
-            <span *ngIf="formulario.controls['senha'].errors['minlength']">
-              Senha deve ter pelo menos de 6 caracteres;
-            </span>
-            <span *ngIf="formulario.controls['senha'].value != 
-            formulario.controls['conf_senha'].value &&
-            formulario.controls['conf_senha'].value != null">
-              Senhas diferentes;
-            </span>
-          </div>
-        </div>
-
       </div>
 
       <div class="ui-g-6">
-
         <div class="ui-g-4">
           <label>Confirmar senha *: </label>
         </div>
-
-        <div class="ui-g-4">
+        <div class="ui-g-6">
           <input type="password" pPassword formControlName="conf_senha" weakLabel="Fraca" mediumLabel="Boa" strongLabel="Forte" promptLabel="Confirme sua senha senha">
         </div>
+      </div>
 
-        <div class="ui-g-3">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['conf_senha'].valid && 
-                  (formulario.controls['conf_senha'].touched || 
-                  formulario.controls['conf_senha'].dirty)">
-            <i class="fa fa-close"></i>
-            <span *ngIf="formulario.controls['senha'].value != 
-                         formulario.controls['conf_senha'].value &&
-                         formulario.controls['conf_senha'].value != null">
-              Senhas diferentes;
-            </span>
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2"></div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['senha'].valid && 
+                                (formulario.controls['senha'].touched || 
+                                formulario.controls['senha'].dirty)">
+                <i class="fa fa-close"></i>
+                <span *ngIf="formulario.controls['senha'].errors['required']">
+                  Senha requerida;
+                </span>
+                <span *ngIf="formulario.controls['senha'].errors['minlength']">
+                  Senha deve ter pelo menos de 6 caracteres;
+                </span>
+                <span *ngIf="formulario.controls['senha'].value != 
+                          formulario.controls['conf_senha'].value &&
+                          formulario.controls['conf_senha'].value != null">
+                  Senhas diferentes;
+                </span>
+              </div>
+            </div>
+            
+            <div class="ui-grid-col-2"></div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!formulario.controls['conf_senha'].valid && 
+                              (formulario.controls['conf_senha'].touched || 
+                              formulario.controls['conf_senha'].dirty)">
+                <i class="fa fa-close"></i>
+                <span *ngIf="formulario.controls['senha'].value != 
+                                     formulario.controls['conf_senha'].value &&
+                                     formulario.controls['conf_senha'].value != null">
+                  Senhas diferentes;
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
+
 
       <div class="ui-g-12">
         <div class="ui-g-3">
           <label>É prestador de serviço?</label>
         </div>
         <div class="ui-g-9">
-          <p-inputSwitch formControlName="prestador" (onChange)="checkPrestador()" 
-            onLabel="Sim" offLabel="Não">
+          <p-inputSwitch formControlName="prestador" (onChange)="checkPrestador()" onLabel="Sim" offLabel="Não">
           </p-inputSwitch>
         </div>
       </div>
     </div>
   </p-fieldset>
 
-  <p-fieldset *ngIf="checkPrestador()" formGroupName="prestadorDados" 
-    class="ui-fieldset" legend="Prestador de serviço">
+  <p-fieldset *ngIf="checkPrestador()" formGroupName="prestadorDados" class="ui-fieldset" legend="Prestador de serviço">
     <div class="ui-g ui-fluid">
       <div class="ui-g-6">
         <div class="ui-g-2">
@@ -178,8 +176,7 @@
           <label>Data de nascimento *:</label>
         </div>
         <div class="ui-g-7">
-          <p-inputMask mask="99/99/9999" formControlName="dataNascimento"
-            placeholder="09/10/1993" slotChar="dd/mm/aaaa">
+          <p-inputMask mask="99/99/9999" formControlName="dataNascimento" placeholder="09/10/1993" slotChar="dd/mm/aaaa">
           </p-inputMask>
         </div>
       </div>
@@ -208,14 +205,9 @@
           <label>Telefone 1 *:</label>
         </div>
 
-        <div class="ui-g-4">
-          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone1">
+        <div class="ui-g-6">
+          <p-inputMask mask="(99) 9999-9999" autoClear="false" formControlName="telefone1">
           </p-inputMask>
-        </div>
-
-        <div class="ui-g-4">
-          <app-error-component [showError]="checkFieldValidation('prestadorDados.telefone.telefone1')" errorMsg="Telefone é requerido">
-          </app-error-component>
         </div>
       </div>
 
@@ -224,16 +216,22 @@
           <label>Telefone 2 *:</label>
         </div>
 
-        <div class="ui-g-4">
-          <p-inputMask mask="(99) 99999-9999" autoClear="false" formControlName="telefone2">
+        <div class="ui-g-6">
+          <p-inputMask mask="(99) 9999-9999" autoClear="false" formControlName="telefone2">
           </p-inputMask>
         </div>
+      </div>
 
-        <div class="ui-g-4">
-          <app-error-component [showError]="checkFieldValidation('prestadorDados.telefone.telefone2')" errorMsg="Telefone é requerido">
-          </app-error-component>
+      <div class="ui-g-12">
+        <div class="ui-grid ui-grid-resposive">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-6">
+              <app-error-component [showError]="checkFieldValidation('prestadorDados.telefone.telefone1')" errorMsg="Cep é requerido">
+              </app-error-component>
+            </div>
+            <div class="ui-grid-col-6"></div>
+          </div>
         </div>
-
       </div>
     </div>
 
@@ -369,30 +367,27 @@
               </div>
 
               <div class="ui-g-12">
-                <p-dropdown *ngIf="i == 0"  [options]="categorias1" filter="filter" formControlName="categoria"
-                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                <p-dropdown *ngIf="i == 0" [options]="categorias1" filter="filter" formControlName="categoria" [style]="{'width':'220px'}"
+                  placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
                 </p-dropdown>
 
-                <p-dropdown *ngIf="i == 1"  [options]="categorias2" filter="filter" formControlName="categoria"
-                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                <p-dropdown *ngIf="i == 1" [options]="categorias2" filter="filter" formControlName="categoria" [style]="{'width':'220px'}"
+                  placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
                 </p-dropdown>
 
-                <p-dropdown *ngIf="i == 2"  [options]="categorias3" filter="filter" formControlName="categoria"
-                [style]="{'width':'220px'}" placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
+                <p-dropdown *ngIf="i == 2" [options]="categorias3" filter="filter" formControlName="categoria" [style]="{'width':'220px'}"
+                  placeholder="Selecione uma categoria" (onChange)="buscarServicos(i)">
                 </p-dropdown>
               </div>
-    
+
               <div class="ui-g-12">
-                <p-dropdown *ngIf="i == 0" [options]="servicos1" filter="filter" formControlName="servico"
-                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                <p-dropdown *ngIf="i == 0" [options]="servicos1" filter="filter" formControlName="servico" [style]="{'width':'220px'}" placeholder="Selecione um serviço">
                 </p-dropdown>
 
-                <p-dropdown *ngIf="i == 1" [options]="servicos2" filter="filter" formControlName="servico"
-                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                <p-dropdown *ngIf="i == 1" [options]="servicos2" filter="filter" formControlName="servico" [style]="{'width':'220px'}" placeholder="Selecione um serviço">
                 </p-dropdown>
 
-                <p-dropdown *ngIf="i == 2" [options]="servicos3" filter="filter" formControlName="servico"
-                  [style]="{'width':'220px'}" placeholder="Selecione um serviço">
+                <p-dropdown *ngIf="i == 2" [options]="servicos3" filter="filter" formControlName="servico" [style]="{'width':'220px'}" placeholder="Selecione um serviço">
                 </p-dropdown>
 
               </div>
@@ -431,8 +426,7 @@
       <button pButton type="button" name="cancelar" (click)="cancelar()" icon="fa-close" label="Cancelar">
       </button>
 
-      <button pButton type="submit" name="salvar" (click)="salvar()" icon="fa-check" label="Salvar"
-        [disabled]="">
+      <button pButton type="submit" name="salvar" (click)="salvar()" icon="fa-check" label="Salvar" [disabled]="">
       </button>
     </div>
   </div>

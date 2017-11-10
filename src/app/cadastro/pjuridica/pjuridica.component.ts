@@ -61,6 +61,10 @@ export class PJuridicaComponent implements OnInit {
     this.categoriaServicoService.getCategorias()
       .then((dados: Array<CategoriaServico>) => {
         this.categoriasI = dados;
+        dados = dados.sort(function (a, b: CategoriaServico) {
+          return (a.nome > b.nome) ? 1 : ((b.nome > a.nome) ? -1 : 0);
+        });
+
 
         this.categorias1 = [];
         this.categorias2 = [];
@@ -109,7 +113,7 @@ export class PJuridicaComponent implements OnInit {
       razaoSocial: [null, Validators.required],
       telefone: this.formBuilder.group({
         telefone1: [null, Validators.required],
-        telefone2: [null, Validators.required]
+        telefone2: [null]
       }),
       endereco: this.formBuilder.group({
         cep: [null, Validators.required],
@@ -161,13 +165,25 @@ export class PJuridicaComponent implements OnInit {
           usuario.tipo_usuario = this.formulario.get('tipo_usuario').value;
 
           usuario.telefone = this.formulario.get('telefone.telefone1').value;
-          usuario.celular = this.formulario.get('telefone.telefone2').value;
+
+          if (this.formulario.get('telefone.telefone2').value) {
+            usuario.celular = this.formulario.get('telefone.telefone2').value;
+          } else {
+            usuario.celular = 'Não informado';
+          }
           usuario.rg = 'rg';
           usuario.data_nasc = 'pj';
           usuario.cep = this.formulario.get('endereco.cep').value;
           usuario.bairro = this.formulario.get('endereco.bairro').value;
+          usuario.logradouro = this.formulario.get('endereco.logradouro').value;
           usuario.cidade = this.formulario.get('endereco.cidade').value;
-          usuario.complemento = this.formulario.get('endereco.complemento').value;
+
+          if (this.formulario.get('endereco.complemento').value) {
+            usuario.complemento = this.formulario.get('endereco.complemento').value;
+          } else {
+            usuario.complemento = 'Não informado';
+          }
+
           usuario.estado = this.formulario.get('endereco.estado').value;
           usuario.numero = this.formulario.get('endereco.numero').value;
           usuario.aprovado = 1; // usuário pendente a aprovação
@@ -189,8 +205,8 @@ export class PJuridicaComponent implements OnInit {
 
           usuario.descricao = this.formulario.get('descricao').value;
           usuario.tipo_prestador = 1; // prestador pessoa jurídica
-          usuario.avaliacao = 'avaliacao';
-          usuario.foto = 'foto';
+          usuario.avaliacao = 'Não informado';
+          usuario.foto = 'Não informado';
 
           usuario.cnpj = this.formulario.get('cnpj').value;
           usuario.nome_fantasia = this.formulario.get('nomeFantasia').value;
@@ -222,6 +238,8 @@ export class PJuridicaComponent implements OnInit {
               }
             }
           );
+
+          window.location.reload();
         } else {
           console.log('formulário inválido');
 
@@ -290,6 +308,10 @@ export class PJuridicaComponent implements OnInit {
     this.categoriaServicoService.getServicos(id_categoria)
       .then((dados: Array<Servico>) => {
         this.servicosI = dados;
+        dados = dados.sort(function (a, b: Servico) {
+          return (a.nome > b.nome) ? 1 : ((b.nome > a.nome) ? -1 : 0);
+        });
+
 
         if (i === 0) {
           this.servicos1 = [];

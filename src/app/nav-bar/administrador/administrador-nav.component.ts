@@ -1,3 +1,4 @@
+import { UsuarioService } from './../../compartilhado/services/usuario.service';
 import { GlobalService } from './../../compartilhado/services/global.service';
 import { Router } from '@angular/router';
 import { BuscaService } from './../../compartilhado/services/busca.service';
@@ -16,23 +17,48 @@ import { Component, OnInit } from '@angular/core';
 export class AdministradorNavComponent implements OnInit {
 
   formulario: FormGroup;
+  check_login: boolean;
+  tipo_usuario: number;
 
   constructor(
     private buscaService: BuscaService,
     private globalService: GlobalService,
+    private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
     private http: Http,
     private router: Router) {
 
-    this.globalService.updateUsuario(3);
+
   }
 
   ngOnInit() {
+    try {
+      this.usuarioService.checkLogin().then(
+        (usuario: User) => {
+          this.globalService.updateLogin(true);
+          this.globalService.updateUsuario(usuario.tipo_usuario);
+          this.check_login = true;
+          this.tipo_usuario = usuario.tipo_usuario;
+
+          console.log(this.check_login);
+          console.log(this.tipo_usuario);
+
+          if (this.tipo_usuario !== 3) {
+            if (this.tipo_usuario === 2) {
+              this.router.navigate(['/home/prestador']);
+            } else {
+              this.router.navigate(['/home/user']);
+            }
+          }
+        }
+      );
+    } catch (error) {
+      //
+    }
+
     this.formulario = this.formBuilder.group({
       campoBusca: [null]
     });
-
-
   }
 
   buscar() {
@@ -48,7 +74,16 @@ export class AdministradorNavComponent implements OnInit {
     });
   }
 
+  home() {
+    window.location.reload();
+  }
+
   sair() {
-    this.router.navigate(['/home/user']);
+    this.usuarioService.logout().then(() => {
+      this.globalService.updateLogin(false);
+      this.globalService.updateUsuario(1);
+      this.router.navigate(['/home/user']);
+      window.location.reload();
+    });
   }
 }

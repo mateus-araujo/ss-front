@@ -1,6 +1,6 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded ui-g ui-fluid">
   <div class="ui-g-2">
-    <a class="navbar-brand" routerLink="/home/user">Sobral Serviços</a>
+    <a class="navbar-brand"  (click)="home()" routerLink="/home/user">Sobral Serviços</a>
   </div>
 
   <div class="ui-g-8">
@@ -9,7 +9,7 @@
         <input type="text" formControlName="campoBusca" pInputText placeholder="Procure um serviço...">
       </div>
       <div class="ui-g-2" *ngIf="formulario.controls['campoBusca'].value">
-        <button pButton type="submit" label="Buscar" (click)="buscar()" icon="fa-search">
+        <button pButton type="submit" label="Buscar" icon="fa-search">
         </button>
       </div>
     </form>

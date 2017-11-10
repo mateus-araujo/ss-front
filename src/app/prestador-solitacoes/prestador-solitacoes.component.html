@@ -1,0 +1,14 @@
+<app-nav-prestador></app-nav-prestador>
+
+<div class="card" *ngFor="let solicitacao of solicitacoes">
+  <div class="card-block">
+    <h5 class="card-title">{{solicitacao.solicitante}}</h5>
+    <p class="card-text">
+      <span>Serviços prestados: </span>
+    </p>
+    <div class="text-right">
+      <button pButton label="Ver perfil">
+      </button>
+    </div>
+  </div>
+</div>
